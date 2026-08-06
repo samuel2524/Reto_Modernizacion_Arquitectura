@@ -1,0 +1,542 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\appfarmaciaconsola\\usuarios.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|solutionrelative:appfarmaciaconsola\\usuarios.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\appfarmaciaconsola\\clientes.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|solutionrelative:appfarmaciaconsola\\clientes.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\appfarmaciaconsola\\productos.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|solutionrelative:appfarmaciaconsola\\productos.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\appfarmaciaconsola\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67FC333D-2292-485E-907D-0BF99AFEAE98}|AppFarmaciaConsola\\AppFarmaciaConsola.csproj|solutionrelative:appfarmaciaconsola\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\servicios\\servicioproducto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\servicios\\servicioproducto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\eventos\\eventostockminimo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\eventos\\eventostockminimo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\movimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\movimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\servicios\\serviciousuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\servicios\\serviciousuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\servicios\\serviciomovimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\servicios\\serviciomovimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\servicios\\serviciocliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\servicios\\serviciocliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\eventos\\eventomovimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\eventos\\eventomovimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\eventos\\eventopuntos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\eventos\\eventopuntos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\eventos\\eventovencimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\eventos\\eventovencimiento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\aspectos\\aspectoautenticacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\aspectos\\aspectoautenticacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\aspectos\\aspectovalidacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\aspectos\\aspectovalidacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\factories\\productofactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\factories\\productofactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\servicios\\serviciodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\servicios\\serviciodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\servicios\\servicionotificacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\servicios\\servicionotificacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\medicamentoliquido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\medicamentoliquido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\medicamentocapsula.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\medicamentocapsula.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\medicamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\medicamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\laboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\laboratorio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\clases\\persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\clases\\persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\enums\\materialenvase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\enums\\materialenvase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\enums\\tiporelleno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\enums\\tiporelleno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\interfaces\\idescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\interfaces\\idescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|c:\\users\\asus\\documents\\solucionfarmacia\\bibfarmacia\\interfaces\\iservicionotificacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2BD7C16-FB2B-4C2C-B3A2-476341D42FB6}|BibFarmacia\\BibFarmacia.csproj|solutionrelative:bibfarmacia\\interfaces\\iservicionotificacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\Program.cs",
+              "RelativeDocumentMoniker": "AppFarmaciaConsola\\Program.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\Program.cs",
+              "RelativeToolTip": "AppFarmaciaConsola\\Program.cs",
+              "ViewState": "AgIAAGEBAAAAAAAAAADwv3kBAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:38:59.101Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Movimiento.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Movimiento.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\Movimiento.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Movimiento.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\Movimiento.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAWwA8AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:23:26.601Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Cliente.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Cliente.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\Cliente.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Cliente.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\Cliente.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAcwBcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:21:02.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EventoStockMinimo.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoStockMinimo.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Eventos\\EventoStockMinimo.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoStockMinimo.cs",
+              "RelativeToolTip": "BibFarmacia\\Eventos\\EventoStockMinimo.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAwwAYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:23:54.434Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ServicioProducto.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioProducto.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Servicios\\ServicioProducto.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioProducto.cs",
+              "RelativeToolTip": "BibFarmacia\\Servicios\\ServicioProducto.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAAAEoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:45:26.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "productos.txt",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\productos.txt",
+              "RelativeDocumentMoniker": "AppFarmaciaConsola\\productos.txt",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\productos.txt",
+              "RelativeToolTip": "AppFarmaciaConsola\\productos.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-05-18T13:42:17.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "clientes.txt",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\clientes.txt",
+              "RelativeDocumentMoniker": "AppFarmaciaConsola\\clientes.txt",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\clientes.txt",
+              "RelativeToolTip": "AppFarmaciaConsola\\clientes.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-05-18T13:42:38.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "usuarios.txt",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\usuarios.txt",
+              "RelativeDocumentMoniker": "AppFarmaciaConsola\\usuarios.txt",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\AppFarmaciaConsola\\usuarios.txt",
+              "RelativeToolTip": "AppFarmaciaConsola\\usuarios.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-05-18T13:43:00.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ServicioUsuario.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioUsuario.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Servicios\\ServicioUsuario.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioUsuario.cs",
+              "RelativeToolTip": "BibFarmacia\\Servicios\\ServicioUsuario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:30:21.124Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ServicioMovimiento.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioMovimiento.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Servicios\\ServicioMovimiento.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioMovimiento.cs",
+              "RelativeToolTip": "BibFarmacia\\Servicios\\ServicioMovimiento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:31:08.858Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ServicioCliente.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioCliente.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Servicios\\ServicioCliente.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioCliente.cs",
+              "RelativeToolTip": "BibFarmacia\\Servicios\\ServicioCliente.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:27:30.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "EventoMovimiento.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoMovimiento.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Eventos\\EventoMovimiento.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoMovimiento.cs",
+              "RelativeToolTip": "BibFarmacia\\Eventos\\EventoMovimiento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:50:40.055Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "EventoPuntos.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoPuntos.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Eventos\\EventoPuntos.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoPuntos.cs",
+              "RelativeToolTip": "BibFarmacia\\Eventos\\EventoPuntos.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAwwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:50:22.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AspectoAutenticacion.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Aspectos\\AspectoAutenticacion.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Aspectos\\AspectoAutenticacion.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Aspectos\\AspectoAutenticacion.cs",
+              "RelativeToolTip": "BibFarmacia\\Aspectos\\AspectoAutenticacion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:44:18.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AspectoValidacion.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Aspectos\\AspectoValidacion.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Aspectos\\AspectoValidacion.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Aspectos\\AspectoValidacion.cs",
+              "RelativeToolTip": "BibFarmacia\\Aspectos\\AspectoValidacion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:43:53.473Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "EventoVencimiento.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoVencimiento.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Eventos\\EventoVencimiento.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Eventos\\EventoVencimiento.cs",
+              "RelativeToolTip": "BibFarmacia\\Eventos\\EventoVencimiento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:24:15.721Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ProductoFactory.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Factories\\ProductoFactory.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Factories\\ProductoFactory.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Factories\\ProductoFactory.cs",
+              "RelativeToolTip": "BibFarmacia\\Factories\\ProductoFactory.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAcwB0AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:31:41.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ServicioDescuento.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioDescuento.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Servicios\\ServicioDescuento.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioDescuento.cs",
+              "RelativeToolTip": "BibFarmacia\\Servicios\\ServicioDescuento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:30:49.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ServicioNotificacion.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioNotificacion.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Servicios\\ServicioNotificacion.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Servicios\\ServicioNotificacion.cs",
+              "RelativeToolTip": "BibFarmacia\\Servicios\\ServicioNotificacion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:24:36.442Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MedicamentoLiquido.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\MedicamentoLiquido.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\MedicamentoLiquido.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\MedicamentoLiquido.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\MedicamentoLiquido.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:23:07.513Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "MedicamentoCapsula.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\MedicamentoCapsula.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\MedicamentoCapsula.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\MedicamentoCapsula.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\MedicamentoCapsula.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:22:46.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Medicamento.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Medicamento.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\Medicamento.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Medicamento.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\Medicamento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:22:27.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Producto.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Producto.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\Producto.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Producto.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\Producto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:22:07.485Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Laboratorio.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Laboratorio.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\Laboratorio.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Laboratorio.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\Laboratorio.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:21:45.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Usuario.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\Usuario.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Usuario.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\Usuario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:21:24.069Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Persona.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Persona.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Clases\\Persona.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Clases\\Persona.cs",
+              "RelativeToolTip": "BibFarmacia\\Clases\\Persona.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:20:36.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "MaterialEnvase.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Enums\\MaterialEnvase.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Enums\\MaterialEnvase.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Enums\\MaterialEnvase.cs",
+              "RelativeToolTip": "BibFarmacia\\Enums\\MaterialEnvase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:20:10.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "TipoRelleno.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Enums\\TipoRelleno.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Enums\\TipoRelleno.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Enums\\TipoRelleno.cs",
+              "RelativeToolTip": "BibFarmacia\\Enums\\TipoRelleno.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:19:47.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "IDescuento.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Interfaces\\IDescuento.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Interfaces\\IDescuento.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Interfaces\\IDescuento.cs",
+              "RelativeToolTip": "BibFarmacia\\Interfaces\\IDescuento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:19:16.888Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "IServicioNotificacion.cs",
+              "DocumentMoniker": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Interfaces\\IServicioNotificacion.cs",
+              "RelativeDocumentMoniker": "BibFarmacia\\Interfaces\\IServicioNotificacion.cs",
+              "ToolTip": "C:\\Users\\Asus\\Documents\\SolucionFarmacia\\BibFarmacia\\Interfaces\\IServicioNotificacion.cs",
+              "RelativeToolTip": "BibFarmacia\\Interfaces\\IServicioNotificacion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T13:18:43.792Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

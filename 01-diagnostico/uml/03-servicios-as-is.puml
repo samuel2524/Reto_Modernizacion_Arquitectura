@@ -1,0 +1,144 @@
+@startuml 03-servicios-as-is
+title UML-03: Servicios e interfaces AS-IS
+
+top to bottom direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 34
+skinparam ranksep 52
+skinparam dpi 180
+skinparam defaultFontSize 12
+
+package "BibFarmacia.Interfaces" as Interfaces {
+  interface IDescuento {
+    + CalcularDescuento(precio: decimal): decimal
+  }
+
+  interface IServicioNotificacion {
+    + EnviarNotificacion(mensaje: string): void
+  }
+}
+
+package "BibFarmacia.Servicios" as Servicios {
+  class ServicioUsuario {
+    - usuarios: List<Usuario>
+    + ServicioUsuario()
+    + AgregarUsuario(usuario: Usuario): void
+    + Login(user: string, password: string): bool
+    + Cargar(ruta: string): string
+  }
+
+  class ServicioProducto {
+    - productos: List<Producto> {solo lectura}
+    + EventoStock: EventoStockMinimo
+    + EventoVencimiento: EventoVencimiento
+    + ServicioProducto()
+    + AgregarProducto(producto: Producto): string
+    + ObtenerProductos(): List<Producto>
+    + VerificarStock(): void
+    + VerificarVencimiento(): void
+    + CargarDesdeArchivo(ruta: string): string
+  }
+
+  class ServicioCliente {
+    - clientes: List<Cliente>
+    + EventoPuntos: EventoPuntos
+    + ServicioCliente()
+    + AgregarCliente(cliente: Cliente): void
+    + ObtenerClientes(): List<Cliente>
+    + AcumularPuntos(cliente: Cliente, puntos: int): void
+    + Cargar(ruta: string): string
+  }
+
+  class ServicioMovimiento {
+    - movimientos: List<Movimiento>
+    + EventoMovimiento: EventoMovimiento
+    + ServicioMovimiento()
+    + RegistrarMovimiento(movimiento: Movimiento): void
+    + ObtenerMovimientos(): List<Movimiento>
+  }
+
+  class ServicioDescuento {
+    + ServicioDescuento() <<implícito>>
+    + CalcularDescuento(precio: decimal): decimal
+  }
+
+  class ServicioNotificacion {
+    + ServicioNotificacion() <<implícito>>
+    + EnviarNotificacion(mensaje: string): void
+  }
+}
+
+package "BibFarmacia.Clases (resumen)" as Clases {
+  class Usuario <<UML-02>>
+  abstract class Producto <<UML-02>>
+  class Cliente <<UML-02>>
+  class Movimiento <<UML-02>>
+  class Laboratorio <<UML-02>>
+  class MedicamentoCapsula <<UML-02>>
+}
+
+package "BibFarmacia.Eventos (resumen)" as Eventos {
+  class EventoStockMinimo <<UML-04>>
+  class EventoVencimiento <<UML-04>>
+  class EventoPuntos <<UML-04>>
+  class EventoMovimiento <<UML-04>>
+}
+
+package "BibFarmacia.Aspectos (resumen)" as Aspectos {
+  class AspectoAutenticacion <<UML-05>>
+}
+
+ServicioDescuento ..|> IDescuento
+ServicioNotificacion ..|> IServicioNotificacion
+
+ServicioUsuario --> "0..*" Usuario
+ServicioProducto --> "0..*" Producto
+ServicioCliente --> "0..*" Cliente
+ServicioMovimiento --> "0..*" Movimiento
+ServicioProducto --> "1" EventoStockMinimo
+ServicioProducto --> "1" EventoVencimiento
+ServicioCliente --> "1" EventoPuntos
+ServicioMovimiento --> "1" EventoMovimiento
+
+ServicioUsuario ..> AspectoAutenticacion : <<usa>>
+ServicioProducto ..> Laboratorio : <<crea>>
+ServicioProducto ..> MedicamentoCapsula : <<crea>>
+
+' Guías invisibles de distribución.
+  ServicioUsuario -[hidden]right- ServicioProducto
+  ServicioProducto -[hidden]right- ServicioCliente
+  ServicioUsuario -[hidden]down- ServicioMovimiento
+  ServicioProducto -[hidden]down- ServicioDescuento
+  ServicioCliente -[hidden]down- ServicioNotificacion
+  Usuario -[hidden]right- Producto
+  Producto -[hidden]right- Cliente
+  Usuario -[hidden]down- Movimiento
+  Producto -[hidden]down- Laboratorio
+  Cliente -[hidden]down- MedicamentoCapsula
+  EventoStockMinimo -[hidden]right- EventoVencimiento
+  EventoStockMinimo -[hidden]down- EventoPuntos
+  EventoVencimiento -[hidden]down- EventoMovimiento
+
+legend bottom
+  |= Relación |= Significado |
+  | Herencia | Una clase hereda de otra |
+  | Implementación | Una clase implementa una interfaz |
+  | Asociación estructural | Una clase mantiene una referencia a otra |
+  | Dependencia | Una clase utiliza temporalmente a otra |
+  | <<crea>> | Construcción directa de una instancia |
+  | <<usa>> | Uso temporal de otra clase |
+  | <<retorna>> | Un método retorna una instancia del tipo indicado |
+  | <<publica>> | Una clase publica un evento |
+  | <<dispara>> | Una clase provoca la ejecución de un evento |
+  | <<se suscribe>> | Una clase escucha o se registra en un evento |
+  | <<instancia>> | El punto de entrada construye un objeto |
+  UML-02: Definición completa en UML-02: Dominio
+  UML-04: Definición completa en UML-04: Eventos
+  UML-05: Definición completa en UML-05: Construcción y soporte
+endlegend
+
+@enduml

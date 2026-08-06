@@ -1,0 +1,11 @@
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\BibFarmacia.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\BibFarmacia.AssemblyInfoInputs.cache
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\BibFarmacia.AssemblyInfo.cs
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\BibFarmacia.csproj.CoreCompileInputs.cache
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\bin\Debug\net8.0\BibFarmacia.deps.json
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\bin\Debug\net8.0\BibFarmacia.dll
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\bin\Debug\net8.0\BibFarmacia.pdb
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\BibFarmacia.dll
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\refint\BibFarmacia.dll
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\BibFarmacia.pdb
+C:\Users\Asus\Documents\SolucionFarmacia\BibFarmacia\obj\Debug\net8.0\ref\BibFarmacia.dll

@@ -1,0 +1,10 @@
+﻿Carlos;123;3001111111;carlos@gmail.com
+Ana;456;3002222222;ana@gmail.com
+Juan;789;3003333333;juan@gmail.com
+Maria;741;3004444444;maria@gmail.com
+Pedro;852;3005555555;pedro@gmail.com
+Laura;963;3006666666;laura@gmail.com
+Sofia;159;3007777777;sofia@gmail.com
+Camilo;357;3008888888;camilo@gmail.com
+Valentina;258;3009999999;valentina@gmail.com
+Andres;654;3011111111;andres@gmail.com

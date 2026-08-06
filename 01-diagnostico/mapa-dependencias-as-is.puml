@@ -1,0 +1,199 @@
+@startuml mapa-dependencias-as-is
+!pragma layout elk
+title Mapa de dependencias AS-IS — Solución Farmacia
+
+top to bottom direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 32
+skinparam ranksep 52
+skinparam dpi 180
+skinparam defaultFontSize 11
+
+rectangle "1. Flujo principal y detalles técnicos" as BloqueFlujo {
+  class "Program" as ProgramFlujo <<presentación y módulo mixto>> #E8DAEF
+
+  class "ServicioProducto" as ProductoFlujo <<alto y bajo nivel mezclados>> #FFE0B2
+  class "ServicioCliente" as ClienteFlujo <<alto y bajo nivel mezclados>> #FFE0B2
+  class "ServicioUsuario" as UsuarioFlujo <<alto y bajo nivel mezclados>> #FFE0B2
+  class "ServicioMovimiento" as MovimientoFlujo <<alto nivel>> #DDEEFF
+  class "AspectoAutenticacion" as AutenticacionFlujo <<alto nivel>> #DDEEFF
+
+  abstract class "Producto" as ProductoEntidad <<alto nivel>> #DDEEFF
+  class "Cliente" as ClienteEntidad <<alto nivel>> #DDEEFF
+  class "Usuario" as UsuarioEntidad <<alto nivel>> #DDEEFF
+  class "Movimiento" as MovimientoEntidad <<alto nivel>> #DDEEFF
+
+  class "System.IO.File" as File <<detalle técnico>> #EEEEEE
+  class "TXT productos\ncolumnas posicionales" as TxtProductos <<detalle técnico>> #EEEEEE
+  class "TXT clientes\ncolumnas posicionales" as TxtClientes <<detalle técnico>> #EEEEEE
+  class "TXT usuarios\ncolumnas posicionales" as TxtUsuarios <<detalle técnico>> #EEEEEE
+  class "DateTime.Now" as RelojFlujo <<detalle técnico>> #EEEEEE
+  class "System.Console" as ConsoleFlujo <<detalle técnico>> #EEEEEE
+
+  ProgramFlujo ..> ProductoFlujo : <<instancia>>
+  ProgramFlujo ..> ClienteFlujo : <<instancia>>
+  ProgramFlujo ..> UsuarioFlujo : <<instancia>>
+  ProgramFlujo ..> MovimientoFlujo : <<instancia>>
+  ProgramFlujo -[#C0392B,dashed]-> ConsoleFlujo : <<usa directamente>>
+  ProgramFlujo -[#C0392B,dashed]-> RelojFlujo : <<usa directamente>>
+
+  ProductoFlujo --> ProductoEntidad : <<almacena>>
+  ClienteFlujo --> ClienteEntidad : <<almacena>>
+  UsuarioFlujo --> UsuarioEntidad : <<almacena>>
+  MovimientoFlujo --> MovimientoEntidad : <<almacena>>
+  UsuarioFlujo ..> AutenticacionFlujo : <<usa>>
+
+  ProductoFlujo -[#C0392B,dashed]-> File : <<depende directamente>>
+  ProductoFlujo -[#C0392B,dashed]-> TxtProductos : <<interpreta>>
+  ProductoFlujo -[#C0392B,dashed]-> RelojFlujo : <<usa directamente>>
+  ClienteFlujo -[#C0392B,dashed]-> File : <<depende directamente>>
+  ClienteFlujo -[#C0392B,dashed]-> TxtClientes : <<interpreta>>
+  UsuarioFlujo -[#C0392B,dashed]-> File : <<depende directamente>>
+  UsuarioFlujo -[#C0392B,dashed]-> TxtUsuarios : <<interpreta>>
+
+  AutenticacionFlujo ..> UsuarioEntidad : <<usa>>
+
+  ProductoFlujo -[hidden]right- ClienteFlujo
+  ClienteFlujo -[hidden]right- UsuarioFlujo
+  UsuarioFlujo -[hidden]right- MovimientoFlujo
+  ProductoEntidad -[hidden]right- ClienteEntidad
+  ClienteEntidad -[hidden]right- UsuarioEntidad
+  UsuarioEntidad -[hidden]right- MovimientoEntidad
+  TxtProductos -[hidden]right- TxtClientes
+  TxtClientes -[hidden]right- TxtUsuarios
+  File -[hidden]right- RelojFlujo
+  RelojFlujo -[hidden]right- ConsoleFlujo
+}
+
+rectangle "2. Modelo y políticas propias" as BloqueModelo {
+  abstract class "Persona" as PersonaModelo <<alto nivel>> #DDEEFF
+  class "Cliente" as ClienteModelo <<alto nivel>> #DDEEFF
+  class "Usuario" as UsuarioModelo <<alto nivel>> #DDEEFF
+
+  abstract class "Producto" as ProductoModelo <<alto nivel con detalle técnico>> #FFE0B2
+  class "Medicamento" as MedicamentoModelo <<alto nivel>> #DDEEFF
+  class "MedicamentoCapsula" as CapsulaModelo <<alto nivel>> #DDEEFF
+  class "MedicamentoLiquido" as LiquidoModelo <<alto nivel>> #DDEEFF
+  class "Laboratorio" as LaboratorioModelo <<alto nivel>> #DDEEFF
+  class "Movimiento" as MovimientoModelo <<alto nivel>> #DDEEFF
+  enum "TipoRelleno" as TipoRellenoModelo <<alto nivel>> #DDEEFF
+  enum "MaterialEnvase" as MaterialEnvaseModelo <<alto nivel>> #DDEEFF
+
+  class "AspectoValidacion" as ValidacionModelo <<alto nivel, no consumido>> #DDEEFF
+  class "ProductoFactory" as FactoryModelo <<construcción y reloj mezclados, no consumida>> #FFE0B2
+  class "ServicioProducto" as ProductoCarga <<módulo mixto>> #FFE0B2
+  class "System.Console" as ConsoleModelo <<detalle técnico>> #EEEEEE
+  class "DateTime.Now" as RelojModelo <<detalle técnico>> #EEEEEE
+
+  ClienteModelo --|> PersonaModelo
+  UsuarioModelo --|> PersonaModelo
+  MedicamentoModelo --|> ProductoModelo
+  CapsulaModelo --|> MedicamentoModelo
+  LiquidoModelo --|> MedicamentoModelo
+  MedicamentoModelo --> LaboratorioModelo
+  MovimientoModelo --> ProductoModelo
+  CapsulaModelo ..> TipoRellenoModelo : <<usa>>
+  LiquidoModelo ..> MaterialEnvaseModelo : <<usa>>
+
+  ValidacionModelo ..> ClienteModelo : <<usa>>
+  ValidacionModelo ..> ProductoModelo : <<usa>>
+  FactoryModelo ..> CapsulaModelo : <<crea>>
+  FactoryModelo ..> LiquidoModelo : <<crea>>
+  FactoryModelo ..> LaboratorioModelo : <<usa>>
+  FactoryModelo -[#C0392B,dashed]-> RelojModelo : <<usa directamente>>
+  ProductoCarga ..> CapsulaModelo : <<crea>>
+  ProductoCarga ..> LaboratorioModelo : <<crea>>
+  ProductoModelo -[#C0392B,dashed]-> ConsoleModelo : <<usa directamente>>
+
+  ClienteModelo -[hidden]right- UsuarioModelo
+  PersonaModelo -[hidden]right- ProductoModelo
+  CapsulaModelo -[hidden]right- LiquidoModelo
+  TipoRellenoModelo -[hidden]right- MaterialEnvaseModelo
+  ValidacionModelo -[hidden]right- FactoryModelo
+  FactoryModelo -[hidden]right- ProductoCarga
+  ConsoleModelo -[hidden]right- RelojModelo
+}
+
+rectangle "3. Inversión y desacoplamiento existentes" as BloqueInversion {
+  class "Program" as ProgramEventos <<presentación>> #E8DAEF
+  class "ServicioProducto" as ProductoEventos <<alto nivel>> #DDEEFF
+  class "ServicioCliente" as ClienteEventos <<alto nivel>> #DDEEFF
+  class "ServicioMovimiento" as MovimientoEventos <<alto nivel>> #DDEEFF
+
+  class "EventoStockMinimo" as EventoStock <<mecanismo de desacoplamiento>> #D5F5E3
+  class "EventoVencimiento" as EventoVencimiento <<mecanismo de desacoplamiento>> #D5F5E3
+  class "EventoPuntos" as EventoPuntos <<mecanismo de desacoplamiento>> #D5F5E3
+  class "EventoMovimiento" as EventoMovimiento <<mecanismo de desacoplamiento>> #D5F5E3
+
+  interface "IDescuento" as IDescuentoMapa <<abstracción sin consumidor>> #D5F5E3
+  class "ServicioDescuento" as DescuentoMapa <<implementación no consumida>> #DDEEFF
+  interface "IServicioNotificacion" as INotificacionMapa <<abstracción sin consumidor>> #D5F5E3
+  class "ServicioNotificacion" as NotificacionMapa <<detalle técnico no consumido>> #EEEEEE
+  class "System.Console" as ConsoleEventos <<detalle técnico>> #EEEEEE
+
+  ProductoEventos -[#1E8449,dashed]-> EventoStock : <<dispara>>
+  ProductoEventos -[#1E8449,dashed]-> EventoVencimiento : <<dispara>>
+  ClienteEventos -[#1E8449,dashed]-> EventoPuntos : <<dispara>>
+  MovimientoEventos -[#1E8449,dashed]-> EventoMovimiento : <<dispara>>
+
+  ProgramEventos -[#1E8449,dashed]-> EventoStock : <<se suscribe>>
+  ProgramEventos -[#1E8449,dashed]-> EventoVencimiento : <<se suscribe>>
+  ProgramEventos -[#1E8449,dashed]-> EventoPuntos : <<se suscribe>>
+  ProgramEventos -[#1E8449,dashed]-> EventoMovimiento : <<se suscribe>>
+
+  DescuentoMapa -[#1E8449,dashed]-|> IDescuentoMapa
+  NotificacionMapa -[#1E8449,dashed]-|> INotificacionMapa
+  NotificacionMapa -[#C0392B,dashed]-> ConsoleEventos : <<usa directamente>>
+
+  ProductoEventos -[hidden]right- ClienteEventos
+  ClienteEventos -[hidden]right- MovimientoEventos
+  EventoStock -[hidden]right- EventoVencimiento
+  EventoPuntos -[hidden]right- EventoMovimiento
+  IDescuentoMapa -[hidden]right- INotificacionMapa
+}
+
+BloqueFlujo -[hidden]down-> BloqueModelo
+BloqueModelo -[hidden]down-> BloqueInversion
+MovimientoEntidad -[hidden]down-> PersonaModelo
+RelojModelo -[hidden]down-> ProgramEventos
+
+note right of File
+  DIP no invertido:
+  los servicios de productos, clientes y usuarios
+  dependen directamente de File y del formato TXT.
+end note
+
+note right of ProductoModelo
+  Producto es una abstracción propia usada efectivamente,
+  pero no reemplaza una dependencia de infraestructura.
+end note
+
+note right of EventoMovimiento
+  Inversión efectiva del manejador:
+  los servicios disparan eventos y Program
+  conecta la salida concreta.
+end note
+
+note right of INotificacionMapa
+  IDescuento e IServicioNotificacion están implementadas,
+  pero ningún caso de uso depende de ellas.
+end note
+
+legend bottom
+  |= Categoría |= Significado |
+  | <back:#DDEEFF>Alto nivel</back> | Regla, política o modelo estable del negocio |
+  | <back:#FFE0B2>Módulo mixto</back> | Combina reglas con detalles técnicos |
+  | <back:#D5F5E3>Abstracción o evento</back> | Contrato o mecanismo de desacoplamiento |
+  | <back:#EEEEEE>Bajo nivel</back> | Archivo, formato, reloj o consola |
+  | <back:#E8DAEF>Presentación</back> | Entrada, salida, menú y composición |
+  | Flecha roja | Dependencia directa hacia un detalle de bajo nivel |
+  | Flecha verde | Abstracción implementada o suscripción desacoplada |
+  | Flecha negra | Dependencia entre tipos propios |
+  Los tipos repetidos se muestran nuevamente para separar cada contexto.
+endlegend
+
+@enduml

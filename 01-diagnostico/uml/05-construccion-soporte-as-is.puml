@@ -1,0 +1,114 @@
+@startuml 05-construccion-soporte-as-is
+title UML-05: Construcción, factories y soporte AS-IS
+
+top to bottom direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 34
+skinparam ranksep 52
+skinparam dpi 180
+skinparam defaultFontSize 12
+
+package "Espacio de nombres global" as Global {
+  class Program <<programa de nivel superior, sintetizada por el compilador>> {
+    - {static} <Main>$(args: string[]): void
+  }
+}
+
+package "BibFarmacia.Factories" as Factories {
+  class ProductoFactory <<estática>> {
+    + {static} CrearCapsula(nombre: string, precio: decimal, stock: int,\n  laboratorio: Laboratorio): MedicamentoCapsula
+    + {static} CrearLiquido(nombre: string, precio: decimal, stock: int,\n  laboratorio: Laboratorio): MedicamentoLiquido
+  }
+}
+
+package "BibFarmacia.Aspectos" as Aspectos {
+  class AspectoAutenticacion <<estática>> {
+    + {static} Login(usuarios: List<Usuario>, user: string,\n  password: string): bool
+  }
+
+  class AspectoValidacion <<estática>> {
+    + {static} ValidarCliente(cliente: Cliente): string
+    + {static} ValidarProducto(producto: Producto): string
+  }
+}
+
+package "BibFarmacia.Servicios (resumen)" as Servicios {
+  class ServicioProducto <<UML-03>>
+  class ServicioCliente <<UML-03>>
+  class ServicioUsuario <<UML-03>>
+  class ServicioMovimiento <<UML-03>>
+}
+
+package "BibFarmacia.Clases (resumen)" as Clases {
+  class Usuario <<UML-02>>
+  class Cliente <<UML-02>>
+  abstract class Producto <<UML-02>>
+  class Laboratorio <<UML-02>>
+  class MedicamentoCapsula <<UML-02>>
+  class MedicamentoLiquido <<UML-02>>
+  class Movimiento <<UML-02>>
+}
+
+package "BibFarmacia.Enum (resumen)" as Enums {
+  enum TipoRelleno <<UML-02>>
+  enum MaterialEnvase <<UML-02>>
+}
+
+Program ..> ServicioProducto : <<instancia>>
+Program ..> ServicioCliente : <<instancia>>
+Program ..> ServicioUsuario : <<instancia>>
+Program ..> ServicioMovimiento : <<instancia>>
+Program ..> Movimiento : <<crea>>
+
+ProductoFactory ..> MedicamentoCapsula : <<crea>>\n<<retorna>>
+ProductoFactory ..> MedicamentoLiquido : <<crea>>\n<<retorna>>
+ProductoFactory ..> Laboratorio : <<usa>>
+ProductoFactory ..> TipoRelleno : <<usa>>
+ProductoFactory ..> MaterialEnvase : <<usa>>
+
+ServicioProducto ..> Laboratorio : <<crea>>
+ServicioProducto ..> MedicamentoCapsula : <<crea>>
+AspectoAutenticacion ..> Usuario : <<usa>>
+AspectoValidacion ..> Cliente : <<usa>>
+AspectoValidacion ..> Producto : <<usa>>
+
+note right of ProductoFactory
+  ProductoFactory existe en el código,
+  pero Program no la utiliza actualmente.
+end note
+
+' Guías invisibles de distribución.
+ServicioProducto -[hidden]right- ServicioCliente
+ServicioProducto -[hidden]down- ServicioUsuario
+ServicioCliente -[hidden]down- ServicioMovimiento
+Usuario -[hidden]right- Cliente
+Cliente -[hidden]right- Producto
+Usuario -[hidden]down- Laboratorio
+Cliente -[hidden]down- MedicamentoCapsula
+Producto -[hidden]down- MedicamentoLiquido
+TipoRelleno -[hidden]right- MaterialEnvase
+ProductoFactory -[hidden]down- AspectoAutenticacion
+
+legend bottom
+  |= Relación |= Significado |
+  | Herencia | Una clase hereda de otra |
+  | Implementación | Una clase implementa una interfaz |
+  | Asociación estructural | Una clase mantiene una referencia a otra |
+  | Dependencia | Una clase utiliza temporalmente a otra |
+  | <<crea>> | Construcción directa de una instancia |
+  | <<usa>> | Uso temporal de otra clase |
+  | <<retorna>> | Un método retorna una instancia del tipo indicado |
+  | <<publica>> | Una clase publica un evento |
+  | <<dispara>> | Una clase provoca la ejecución de un evento |
+  | <<se suscribe>> | Una clase escucha o se registra en un evento |
+  | <<instancia>> | El punto de entrada construye un objeto |
+  UML-02: Definición completa en UML-02: Dominio
+  UML-03: Definición completa en UML-03: Servicios e interfaces
+  UML-04: Definición completa en UML-04: Eventos
+endlegend
+
+@enduml

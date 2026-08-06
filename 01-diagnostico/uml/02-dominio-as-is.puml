@@ -1,0 +1,122 @@
+@startuml 02-dominio-as-is
+title UML-02: Dominio y entidades AS-IS
+
+top to bottom direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 34
+skinparam ranksep 52
+skinparam dpi 180
+skinparam defaultFontSize 12
+
+package "BibFarmacia.Clases" as Clases {
+  abstract class Persona {
+    + Nombre: string { get; set; }
+    + Cedula: string { get; set; }
+    + Telefono: string { get; set; }
+    + Correo: string { get; set; }
+    # Persona(nombre: string, cedula: string,\n  telefono: string, correo: string)
+  }
+
+  class Usuario {
+    + UserName: string { get; set; }
+    + Password: string { get; set; }
+    + Usuario(nombre: string, cedula: string,\n  telefono: string, correo: string,\n  userName: string, password: string)
+  }
+
+  class Cliente {
+    + Puntos: int { get; set; }
+    + Cliente(nombre: string, cedula: string,\n  telefono: string, correo: string)
+    + AcumularPuntos(puntos: int): void
+  }
+
+  abstract class Producto {
+    + Nombre: string { get; set; }
+    + Precio: decimal { get; set; }
+    + Stock: int { get; set; }
+    + StockMinimo: int { get; set; }
+    + FechaVencimiento: DateTime { get; set; }
+    # Producto(nombre: string, precio: decimal, stock: int,\n  stockMinimo: int, fechaVencimiento: DateTime)
+    + MostrarInformacion(): void {virtual}
+  }
+
+  class Medicamento {
+    + Laboratorio: Laboratorio { get; set; }
+    + Medicamento(nombre: string, precio: decimal, stock: int,\n  stockMinimo: int, fechaVencimiento: DateTime,\n  laboratorio: Laboratorio)
+  }
+
+  class MedicamentoCapsula {
+    + TipoRelleno: TipoRelleno { get; set; }
+    + MedicamentoCapsula(nombre: string, precio: decimal, stock: int,\n  stockMinimo: int, fechaVencimiento: DateTime,\n  laboratorio: Laboratorio, tipoRelleno: TipoRelleno)
+  }
+
+  class MedicamentoLiquido {
+    + MaterialEnvase: MaterialEnvase { get; set; }
+    + Mililitros: int { get; set; }
+    + MedicamentoLiquido(nombre: string, precio: decimal, stock: int,\n  stockMinimo: int, fechaVencimiento: DateTime,\n  laboratorio: Laboratorio, materialEnvase: MaterialEnvase,\n  mililitros: int)
+  }
+
+  class Laboratorio {
+    + Nombre: string { get; set; }
+    + Direccion: string { get; set; }
+    + Telefono: string { get; set; }
+    + Laboratorio(nombre: string, direccion: string,\n  telefono: string)
+  }
+
+  class Movimiento {
+    + Fecha: DateTime { get; set; }
+    + Cantidad: int { get; set; }
+    + Tipo: string { get; set; }
+    + Producto: Producto { get; set; }
+    + Movimiento(fecha: DateTime, cantidad: int, tipo: string,\n  producto: Producto)
+  }
+}
+
+package "BibFarmacia.Enum" as Enums {
+  enum TipoRelleno {
+    Gel = 0
+    Polvo = 1
+  }
+
+  enum MaterialEnvase {
+    Vidrio = 0
+    Plastico = 1
+  }
+}
+
+Usuario --|> Persona
+Cliente --|> Persona
+Medicamento --|> Producto
+MedicamentoCapsula --|> Medicamento
+MedicamentoLiquido --|> Medicamento
+
+Medicamento --> "1" Laboratorio
+Movimiento --> "1" Producto
+MedicamentoCapsula ..> TipoRelleno : <<usa>>
+MedicamentoLiquido ..> MaterialEnvase : <<usa>>
+
+' Guías invisibles de distribución.
+Usuario -[hidden]right- Cliente
+Persona -[hidden]right- Producto
+MedicamentoCapsula -[hidden]right- MedicamentoLiquido
+TipoRelleno -[hidden]right- MaterialEnvase
+
+legend bottom
+  |= Relación |= Significado |
+  | Herencia | Una clase hereda de otra |
+  | Implementación | Una clase implementa una interfaz |
+  | Asociación estructural | Una clase mantiene una referencia a otra |
+  | Dependencia | Una clase utiliza temporalmente a otra |
+  | <<crea>> | Construcción directa de una instancia |
+  | <<usa>> | Uso temporal de otra clase |
+  | <<retorna>> | Un método retorna una instancia del tipo indicado |
+  | <<publica>> | Una clase publica un evento |
+  | <<dispara>> | Una clase provoca la ejecución de un evento |
+  | <<se suscribe>> | Una clase escucha o se registra en un evento |
+  | <<instancia>> | El punto de entrada construye un objeto |
+endlegend
+
+@enduml
