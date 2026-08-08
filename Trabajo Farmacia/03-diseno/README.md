@@ -69,11 +69,3 @@ Por cada inversión:
 Cada ADR debe contener contexto y evidencia (referencia a un hallazgo),
 al menos dos alternativas evaluadas, la decisión, el costo aceptado y los
 principios involucrados.
-
-## Peso en la nota
-
-Criterio 2 (diseño TO-BE y diagrama) **20 %** · Criterio 3 (ADR, SOLID, herencias
-e inversión) **20 %**. Es el 40 % de la nota.
-
-Si el diagrama TO-BE y el código de la implementación no coinciden, los criterios
-2 y 4 **no pueden superar 3.0**.

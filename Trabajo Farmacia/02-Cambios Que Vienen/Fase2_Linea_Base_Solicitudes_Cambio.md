@@ -57,11 +57,3 @@
 | SC-3 | 3-4 | 3-4 | 3-4 | 1 | Sí (dominio + venta + código muerto) |
 
 **Lectura:** ninguna SC se implementa hoy "agregando código nuevo": todas exigen modificar `ServicioProducto.cs`, `Program.cs` o ambos → síntoma empírico de violación de OCP.
-
-## Recomendación para la Fase 4
-
-Criterios: (a) presiona el núcleo del dominio (OCP/LSP), (b) métrica antes/después contundente, (c) menor riesgo de regresión, (d) prioridad del negocio.
-
-1. **SC-1 — RECOMENDADA:** toca la jerarquía `Producto` (núcleo), métrica limpia (2 archivos modificados → 0 con OCP aplicado), riesgo controlado.
-2. **SC-2 — Riesgosa:** modifica el flujo de venta compartido y el mensaje observable del evento.
-3. **SC-3 — La más compleja:** modelo nuevo + reactivar código muerto + tocar la venta → candidata a deuda consciente explicada en el video (criterio 6).
