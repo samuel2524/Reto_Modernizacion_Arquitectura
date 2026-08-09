@@ -1,25 +1,70 @@
 ﻿using BibFarmacia.Aspectos;
-using BibFarmacia.Clases;
 using BibFarmacia.Factories;
+using BibFarmacia.Interfaces;
 using BibFarmacia.Servicios;
 
 Console.Title = "Sistema Farmacia";
 
+CreadorMedicamentoCapsula creadorMedicamento =
+    new CreadorMedicamentoCapsula();
+
+CreadorCosmetico creadorCosmetico =
+    new CreadorCosmetico();
+
+CreadorComestible creadorComestible =
+    new CreadorComestible();
+
+IDictionary<string, ICreadorProducto> creadores =
+    new Dictionary<string, ICreadorProducto>
+    {
+        ["medicamento"] = creadorMedicamento,
+        ["cosmetico"] = creadorCosmetico,
+        ["comestible"] = creadorComestible
+    };
+
+SelectorCreadorProducto selectorProductos =
+    new SelectorCreadorProducto(
+        creadores);
+
+CargadorProductosTxt cargadorProductos =
+    new CargadorProductosTxt(
+        selectorProductos);
+
+CargadorClientesTxt cargadorClientes =
+    new CargadorClientesTxt();
+
+CargadorUsuariosTxt cargadorUsuarios =
+    new CargadorUsuariosTxt();
+
 ServicioProducto servicioProducto =
-    new ServicioProducto();
+    new ServicioProducto(
+        cargadorProductos);
 
 ServicioCliente servicioCliente =
-    new ServicioCliente();
+    new ServicioCliente(
+        cargadorClientes);
 
 ServicioUsuario servicioUsuario =
-    new ServicioUsuario();
+    new ServicioUsuario(
+        cargadorUsuarios);
 
 ServicioMovimiento servicioMovimiento =
     new ServicioMovimiento();
 
+ServicioVenta servicioVenta =
+    new ServicioVenta(
+        servicioProducto,
+        servicioMovimiento);
+
+ServicioFidelizacion servicioFidelizacion =
+    new ServicioFidelizacion();
+
+ServicioMonitoreoProductos servicioMonitoreoProductos =
+    new ServicioMonitoreoProductos();
+
 // ================= EVENTOS =================
 
-servicioProducto.EventoStock.StockMinimo +=
+servicioMonitoreoProductos.EventoStock.StockMinimo +=
     mensaje =>
     {
         Console.ForegroundColor =
@@ -30,7 +75,7 @@ servicioProducto.EventoStock.StockMinimo +=
         Console.ResetColor();
     };
 
-servicioProducto.EventoVencimiento.Vencimiento +=
+servicioMonitoreoProductos.EventoVencimiento.Vencimiento +=
     mensaje =>
     {
         Console.ForegroundColor =
@@ -41,7 +86,7 @@ servicioProducto.EventoVencimiento.Vencimiento +=
         Console.ResetColor();
     };
 
-servicioCliente.EventoPuntos.PuntosAcumulados +=
+servicioFidelizacion.EventoPuntos.PuntosAcumulados +=
     mensaje =>
     {
         Console.ForegroundColor =
@@ -134,9 +179,11 @@ Console.ResetColor();
 
 // ================= ALERTAS =================
 
-servicioProducto.VerificarStock();
+servicioMonitoreoProductos.VerificarStock(
+    servicioProducto.ObtenerProductos());
 
-servicioProducto.VerificarVencimiento();
+servicioMonitoreoProductos.VerificarVencimiento(
+    servicioProducto.ObtenerProductos());
 
 // ================= MENÚ =================
 
@@ -261,12 +308,9 @@ while (opcion != 7)
                 Console.ReadLine()!;
 
             var productoVenta =
-                servicioProducto
-                .ObtenerProductos() // listar productos y Filtrar segund Responsabilidadea
-                .FirstOrDefault(p =>
-                    p.Nombre.ToLower()
-                    .Contains(
-                        nombreVenta.ToLower()));
+                servicioVenta
+                .BuscarProducto(
+                    nombreVenta);
 
             if (productoVenta != null)
             {
@@ -277,22 +321,13 @@ while (opcion != 7)
                     int.Parse(
                         Console.ReadLine()!);
 
-                productoVenta.Stock -=
-                    cantidad;
-
-                Movimiento venta = // Tercera Responsabilidad Creacion del movimiento y registro
-                    new Movimiento(
-                        DateTime.Now,
-                        cantidad,
-                        "Venta",
-                        productoVenta);
-
-                servicioMovimiento
-                    .RegistrarMovimiento(
-                        venta);
+                string resultadoVenta =
+                    servicioVenta.Vender(
+                        productoVenta,
+                        cantidad);
 
                 Console.WriteLine(
-                    "\nVenta registrada");
+                    $"\n{resultadoVenta}");
             }
             else
             {
@@ -327,7 +362,7 @@ while (opcion != 7)
                     int.Parse(
                         Console.ReadLine()!);
 
-                servicioCliente
+                servicioFidelizacion
                     .AcumularPuntos(
                         clientePuntos,
                         puntos);
@@ -345,11 +380,15 @@ while (opcion != 7)
             Console.WriteLine(
                 "\nVerificando alertas...");
 
-            servicioProducto
-                .VerificarStock();
+            servicioMonitoreoProductos
+                .VerificarStock(
+                    servicioProducto
+                        .ObtenerProductos());
 
-            servicioProducto
-                .VerificarVencimiento();
+            servicioMonitoreoProductos
+                .VerificarVencimiento(
+                    servicioProducto
+                        .ObtenerProductos());
 
             break;
 

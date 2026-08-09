@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BibFarmacia.Clases;
-using BibFarmacia.Eventos;
+using BibFarmacia.Interfaces;
 
 namespace BibFarmacia.Servicios
 {
@@ -13,13 +13,15 @@ namespace BibFarmacia.Servicios
     {
         private List<Cliente> clientes;
 
-        public EventoPuntos EventoPuntos;
+        private readonly ICargadorClientes
+            cargador;
 
-        public ServicioCliente()
+        public ServicioCliente(
+            ICargadorClientes cargador)
         {
-            clientes = new List<Cliente>();
+            this.cargador = cargador;
 
-            EventoPuntos = new EventoPuntos();
+            clientes = new List<Cliente>();
         }
 
         public void AgregarCliente(
@@ -33,51 +35,12 @@ namespace BibFarmacia.Servicios
             return clientes;
         }
 
-        public void AcumularPuntos(
-            Cliente cliente,
-            int puntos)
-        {
-            cliente.Puntos += puntos;
-
-            EventoPuntos.Disparar(
-                cliente.Nombre,
-                puntos);
-        }
-
         public string Cargar(
             string ruta)
         {
-            try
-            {
-                if (!File.Exists(ruta))
-                {
-                    return "Archivo no encontrado";
-                }
-
-                string[] lineas =
-                    File.ReadAllLines(ruta);
-
-                foreach (string linea in lineas)
-                {
-                    string[] datos =
-                        linea.Split(';');
-
-                    Cliente cliente =
-                        new Cliente(
-                            datos[0],
-                            datos[1],
-                            datos[2],
-                            datos[3]);
-
-                    clientes.Add(cliente);
-                }
-
-                return "Clientes cargados";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            return cargador.Cargar(
+                ruta,
+                clientes);
         }
     }
 }

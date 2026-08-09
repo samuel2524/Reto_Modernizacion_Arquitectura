@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using BibFarmacia.Aspectos;
 using BibFarmacia.Clases;
+using BibFarmacia.Interfaces;
 
 namespace BibFarmacia.Servicios
 {
@@ -13,8 +14,14 @@ namespace BibFarmacia.Servicios
     {
         private List<Usuario> usuarios;
 
-        public ServicioUsuario()
+        private readonly ICargadorUsuarios
+            cargador;
+
+        public ServicioUsuario(
+            ICargadorUsuarios cargador)
         {
+            this.cargador = cargador;
+
             usuarios = new List<Usuario>();
         }
 
@@ -37,39 +44,9 @@ namespace BibFarmacia.Servicios
         public string Cargar(
             string ruta)
         {
-            try
-            {
-                if (!File.Exists(ruta))
-                {
-                    return "Archivo no encontrado";
-                }
-
-                string[] lineas =
-                    File.ReadAllLines(ruta);
-
-                foreach (string linea in lineas)
-                {
-                    string[] datos =
-                        linea.Split(';');
-
-                    Usuario usuario =
-                        new Usuario(
-                            datos[0],
-                            datos[1],
-                            datos[2],
-                            datos[3],
-                            datos[4],
-                            datos[5]);
-
-                    usuarios.Add(usuario);
-                }
-
-                return "Usuarios cargados";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            return cargador.Cargar(
+                ruta,
+                usuarios);
         }
     }
 }
