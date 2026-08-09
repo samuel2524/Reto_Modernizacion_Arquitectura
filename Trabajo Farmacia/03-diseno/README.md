@@ -5,14 +5,29 @@
 | Entregable | Estado |
 |---|---|
 | Registros de decisión arquitectónica (ADR), mínimo 5 | **Listo** — `ADR/ADR-001` a `ADR-005` |
-| Diagrama UML TO-BE con leyenda de colores (fuente editable + imagen) | **PENDIENTE** |
-| Argumentación de los cinco principios SOLID | Parcial — está dentro de los ADR |
-| Justificación de herencias con verificación LSP | **PENDIENTE** |
-| Inversiones de dependencia con composition root | Parcial — ADR-002 y ADR-003 |
+| Diagrama UML TO-BE con leyenda de colores (fuente editable + imagen) | **Listo** — `diagrama-to-be/` (.drawio, .svg, .pdf, .png) |
+| Argumentación de los cinco principios SOLID | **Listo** — cinco notas en el diagrama, una por principio, más los ADR |
+| Justificación de herencias con verificación LSP | **Listo** — nota LSP dentro del diagrama |
+| Inversiones de dependencia con composition root | **Listo** — nota DIP en el diagrama (alto nivel, abstracción, bajo nivel, composition root) |
 
 > Los diagramas TO-BE anteriores en PlantUML se retiraron de esta carpeta. Siguen
 > disponibles en el historial de git (commit `e3be34e` y anteriores) si hicieran
 > falta: `git show e3be34e:"Trabajo Farmacia/03-diseno/UML/UML-TO-BE.puml"`.
+
+## Sobre el diagrama TO-BE
+
+Está construido **sobre el diagrama AS-IS**: cada clase que se conserva ocupa la
+misma posición y mantiene los mismos atributos y operaciones que en
+`../01-diagnostico/diagrama-as-is/`. Así los dos se pueden comparar lado a lado.
+
+- **Negro**: 23 clases conservadas sin cambios.
+- **Color por principio**: 4 clases intervenidas y 12 nuevas.
+- Las cuatro reasignaciones de responsabilidad que muestra el diagrama
+  (eventos de stock, puntos, creación del movimiento de venta y creación de
+  productos) son los ADR-001, 003, 004 y 005 dibujados.
+
+El `.drawio` y el `.svg` se pueden abrir y editar en draw.io. El `.pdf` es solo
+imagen: la exportación no incrusta el diagrama en ese formato.
 
 ## Lo que falta, según el enunciado (sección 6)
 
