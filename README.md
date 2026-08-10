@@ -18,7 +18,7 @@ Para ejecutar la aplicación de consola, abrir una terminal ubicada en la carpet
 
 ```bash
 cd "Trabajo Farmacia"
-cd "04-src"
+cd "03-src"
 cd "AppFarmaciaConsola"
 dotnet run
 
