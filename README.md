@@ -1,7 +1,10 @@
 ## Integrante	Rol ##
 Samuel Parra	Arquitecto de dominio
+
 Jose Miguel Jaramillo	Arquitecto de dependencias
+
 Andres Martinez	Ingeniero de comportamiento
+
 Juan Jose Garcia	Integrador y evidencia
 
 
