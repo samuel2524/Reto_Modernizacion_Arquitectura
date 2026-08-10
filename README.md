@@ -5,7 +5,7 @@ Andres Martinez	Ingeniero de comportamiento
 Juan Jose Garcia	Integrador y evidencia
 
 
-## Enlace del video ##: 
+## Enlace del video : 
 
 
 ## Ejecución del proyecto ##
