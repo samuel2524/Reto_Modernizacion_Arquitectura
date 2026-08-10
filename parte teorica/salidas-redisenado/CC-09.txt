@@ -1,0 +1,81 @@
+﻿Cargando información del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contraseña: 
+Login correcto
+ALERTA: stock mínimo de Dolex
+ALERTA: stock mínimo de Amoxicilina
+ALERTA: stock mínimo de Loratadina
+ALERTA: stock mínimo de Diclofenaco
+ALERTA: Dolex próximo a vencer
+ALERTA: Ibuprofeno próximo a vencer
+ALERTA: Amoxicilina próximo a vencer
+ALERTA: Acetaminofen próximo a vencer
+ALERTA: Omeprazol próximo a vencer
+ALERTA: Loratadina próximo a vencer
+ALERTA: VitaminaC próximo a vencer
+ALERTA: Diclofenaco próximo a vencer
+ALERTA: Aspirina próximo a vencer
+ALERTA: Naproxeno próximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Salir
+
+Seleccione opción: 
+Nombre producto: Cantidad: Movimiento registrado: Venta
+
+Venta registrada
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Salir
+
+Seleccione opción: 
+===== PRODUCTOS =====
+Nombre		Stock	Precio
+-----------------------------------
+Dolex		2	5000
+Ibuprofeno		10	7000
+Amoxicilina		-53	12000
+Acetaminofen		8	4500
+Omeprazol		20	15000
+Loratadina		4	9000
+VitaminaC		15	6000
+Diclofenaco		3	11000
+Aspirina		9	7500
+Naproxeno		7	13500
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Salir
+
+Seleccione opción: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
