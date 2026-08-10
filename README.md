@@ -10,6 +10,7 @@ Juan Jose Garcia	Integrador y evidencia
 
 ## Enlace del video : 
 
+https://youtu.be/QBECckkiprg 
 
 ## Ejecución del proyecto ##
 
