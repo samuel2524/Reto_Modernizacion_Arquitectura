@@ -11,12 +11,8 @@
 artifacts/
 TestResults/
 
-# Local OpenCode dependencies; agents and skills remain versioned
-.opencode/node_modules/
-.opencode/package.json
-.opencode/package-lock.json
-.opencode/bun.lock
-.opencode/.gitignore
+# Local OpenCode configuration and agents
+.opencode/
 
 # Operating system and temporary files
 .DS_Store
