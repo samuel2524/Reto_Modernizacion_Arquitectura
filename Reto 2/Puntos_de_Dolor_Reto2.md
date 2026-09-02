@@ -6,23 +6,23 @@ Este analisis toma como AS-IS la solucion de `Trabajo Farmacia/03-Src`. Solo inc
 
 | ID | Punto de dolor | Costo actual | Prioridad | Decision |
 |---|---|---:|---|---|
-| P-01 | Ensamblaje manual concentrado en `Program` | 1 archivo / 1 clase implicita, 13 construcciones y 4 suscripciones | Alta | Intervenir |
+| P-01 | La creacion de medicamentos usa dos mecanismos divergentes | 2 archivos / 2 clases | Media | Consolidar Factory Method existente |
 | P-02 | La venta no admite politicas comerciales variables | 4 archivos / 4 clases | Alta | Intervenir |
 | P-03 | Cada nueva alerta amplia deteccion, evento y composicion | 3 archivos / 3 clases por alerta | Alta | Intervenir |
 | P-04 | El algoritmo de carga TXT esta triplicado | 3 archivos / 3 clases | Media | Intervenir |
 | P-05 | El menu esta centralizado en un `switch` | 1 archivo / 1 clase implicita | Baja | **No intervenir** |
 
-## P-01 - Ensamblaje manual concentrado en `Program`
+## P-01 - Creacion de medicamentos con mecanismos divergentes
 
-**Donde:** `AppFarmaciaConsola/Program.cs:8-63` crea tres creadores, un diccionario, un selector, tres cargadores y seis servicios. Las lineas `67-110` conectan manualmente cuatro eventos con la consola.
+**Donde:** `Factories/CreadorMedicamentoCapsula.cs:10-26` crea capsulas desde `DatosProducto`; `Factories/ProductoFactory.cs:13-42` ofrece otra creacion estatica para capsulas y liquidos. La carga real usa `CargadorProductosTxt.cs:47-53`, `ISelectorCreadorProducto` e `ICreadorProducto`; `ProductoFactory` no tiene consumidores.
 
-**Detalle del codigo:** las lineas `17-23` registran cada tipo de producto por una clave textual; `25-31` construyen selector y cargador; `39-63` construyen el grafo de servicios. Las lineas `67`, `78`, `89` y `100` conocen los canales concretos y sus eventos.
+**Detalle del codigo:** `CreadorMedicamentoCapsula.cs:22-24` usa stock minimo y vencimiento del archivo. En cambio, `ProductoFactory.cs:23-26` fija stock minimo en 5, vencimiento a seis meses y relleno gel. Ambos caminos pueden construir el mismo tipo con reglas diferentes.
 
-**Sintoma:** para comprender como colaboran las interfaces es obligatorio recorrer el inicio completo de `Program`. La construccion y la presentacion comparten el mismo archivo, por lo que agregar una colaboracion aumenta un punto de entrada que ya contiene 13 expresiones `new` y 4 suscripciones.
+**Sintoma:** una modificacion en la politica de creacion de capsulas obliga a revisar dos mecanismos para evitar resultados inconsistentes. La presencia de una fabrica estatica desconectada tambien dificulta saber cual es la ruta oficial de creacion.
 
-**Escenario y costo:** incorporar un nuevo servicio transversal obliga a abrir y modificar `Program.cs`: **1 archivo / 1 clase implicita**. Aunque el conteo es bajo, el riesgo es alto porque todas las dependencias convergen en sus primeras 110 lineas.
+**Escenario y costo:** cambiar vencimiento, stock minimo o datos del laboratorio exige revisar `CreadorMedicamentoCapsula` y `ProductoFactory`: **2 archivos / 2 clases**.
 
-**Por que importa:** es el punto de ensamblaje mencionado expresamente por el Reto 2. Debe hacerse legible sin introducir un contenedor automatico ni cambiar el estilo arquitectonico.
+**Por que importa:** el TO-BE debe consolidar `ICreadorProducto` como unico mecanismo y eliminar `ProductoFactory`. Factory Method ya existe en el AS-IS; se mantiene y consolida, pero no se presenta como patron nuevo del Reto 2.
 
 ## P-02 - La venta no admite politicas comerciales variables
 
@@ -46,7 +46,7 @@ Este analisis toma como AS-IS la solucion de `Trabajo Farmacia/03-Src`. Solo inc
 
 **Escenario y costo:** una alerta nueva requiere un archivo de evento, `ServicioMonitoreoProductos.cs` y `Program.cs`: **3 archivos / 3 clases**.
 
-**Por que importa:** el costo se repite por cada regla y el monitor crece horizontalmente. Permite evaluar una coordinacion componible, por ejemplo `Chain of Responsibility`, sin alterar las alertas actuales.
+**Por que importa:** el costo se repite por cada regla y el monitor crece horizontalmente. `Composite` permite agrupar reglas independientes y ejecutarlas todas sin alterar las alertas actuales.
 
 ## P-04 - El algoritmo de carga TXT esta triplicado
 
@@ -72,4 +72,4 @@ Este analisis toma como AS-IS la solucion de `Trabajo Farmacia/03-Src`. Solo inc
 
 ## Conclusion
 
-Se priorizan P-01 a P-04 porque su costo se repite o afecta el flujo central y la solicitud SC-3. P-05 queda documentado como deuda aceptada: demuestra que el equipo no adopta un patron solo por ser una buena practica, sino cuando el beneficio medido supera su costo.
+P-01 consolida un Factory Method ya existente; P-02, P-03 y P-04 justifican respectivamente Strategy, Composite y Template Method como patrones nuevos. P-05 queda como deuda aceptada: demuestra que el equipo no adopta un patron cuando su costo supera el beneficio.
