@@ -6,23 +6,23 @@ Este analisis toma como AS-IS la solucion de `Trabajo Farmacia/03-Src`. Solo inc
 
 | ID | Punto de dolor | Costo actual | Prioridad | Decision |
 |---|---|---:|---|---|
-| P-01 | La creacion de medicamentos usa dos mecanismos divergentes | 2 archivos / 2 clases | Media | Consolidar Factory Method existente |
+| P-01 | El formato de productos esta acoplado al orden posicional de sus columnas | 3 archivos / 3 clases | Alta | Intervenir |
 | P-02 | La venta no admite politicas comerciales variables | 4 archivos / 4 clases | Alta | Intervenir |
 | P-03 | Cada nueva alerta amplia deteccion, evento y composicion | 3 archivos / 3 clases por alerta | Alta | Intervenir |
 | P-04 | El algoritmo de carga TXT esta triplicado | 3 archivos / 3 clases | Media | Intervenir |
 | P-05 | El menu esta centralizado en un `switch` | 1 archivo / 1 clase implicita | Baja | **No intervenir** |
 
-## P-01 - Creacion de medicamentos con mecanismos divergentes
+## P-01 - El formato de productos esta acoplado al orden posicional de sus columnas
 
-**Donde:** `Factories/CreadorMedicamentoCapsula.cs:10-26` crea capsulas desde `DatosProducto`; `Factories/ProductoFactory.cs:13-42` ofrece otra creacion estatica para capsulas y liquidos. La carga real usa `CargadorProductosTxt.cs:47-53`, `ISelectorCreadorProducto` e `ICreadorProducto`; `ProductoFactory` no tiene consumidores.
+**Donde:** `CargadorProductosTxt.cs:32-45` lee cada linea con `linea.Split(';')` y construye `DatosProducto` usando posiciones fijas (`datos[0]` a `datos[5]`). Los campos variables de cada tipo de producto se pasan como `datos[6..]` y cada creador los interpreta por indice: `CreadorMedicamentoCapsula.cs:15` usa `datos.Extra[0]`, `CreadorCosmetico.cs:18-19` usa `datos.Extra[0]` y `datos.Extra[1]`, `CreadorComestible.cs:16` usa `datos.Extra[0]`.
 
-**Detalle del codigo:** `CreadorMedicamentoCapsula.cs:22-24` usa stock minimo y vencimiento del archivo. En cambio, `ProductoFactory.cs:23-26` fija stock minimo en 5, vencimiento a seis meses y relleno gel. Ambos caminos pueden construir el mismo tipo con reglas diferentes.
+**Detalle del codigo:** `DatosProducto.cs:5-11` expone cada campo como propiedad fija y guarda el resto sin nombrar en `Extra: IReadOnlyList<string>`. El cargador conoce el orden exacto de las columnas (`datos[0]` es el tipo, `datos[1]` el nombre, ... `datos[5]` el vencimiento) y delega la interpretacion de los campos restantes por indice en cada creador.
 
-**Sintoma:** una modificacion en la politica de creacion de capsulas obliga a revisar dos mecanismos para evitar resultados inconsistentes. La presencia de una fabrica estatica desconectada tambien dificulta saber cual es la ruta oficial de creacion.
+**Sintoma:** agregar un campo nuevo al inventario de productos, por ejemplo la marca del laboratorio o un regimen de precio, obliga a abrir tres lugares a la vez: el DTO para declarar la propiedad, el cargador para leer la posicion de la columna y cada creador que depende de `Extra[i]` por su indice. El formato del archivo queda acoplado a tres clases separadas y una reordenacion de columnas rompe silenciosamente la carga.
 
-**Escenario y costo:** cambiar vencimiento, stock minimo o datos del laboratorio exige revisar `CreadorMedicamentoCapsula` y `ProductoFactory`: **2 archivos / 2 clases**.
+**Escenario y costo:** si el inventario agrega un campo (p. ej. marca) se debe modificar `DatosProducto` (declarar la propiedad), `CargadorProductosTxt` (leer la nueva posicion) y ajustar cada creador al desplazamiento de la columna: **3 archivos / 3 clases**. Con los tres tipos actuales (medicamento, cosmético, comestible), el costo crece con cada tipo nuevo que lea columnas por indice.
 
-**Por que importa:** el TO-BE debe consolidar `ICreadorProducto` como unico mecanismo y eliminar `ProductoFactory`. Factory Method ya existe en el AS-IS; se mantiene y consolida, pero no se presenta como patron nuevo del Reto 2.
+**Por que importa:** el TO-BE debe encapsular el parseo de cada tipo de producto en su propio creador, de modo que una fila se convierta en `DatosProducto` sin que el cargador tenga que conocer la posicion de cada columna. Ese es el punto donde evaluar Builder o el refuerzo de Factory Method como mecanismo unico de lectura y construccion.
 
 ## P-02 - La venta no admite politicas comerciales variables
 
@@ -72,4 +72,4 @@ Este analisis toma como AS-IS la solucion de `Trabajo Farmacia/03-Src`. Solo inc
 
 ## Conclusion
 
-P-01 consolida un Factory Method ya existente; P-02, P-03 y P-04 justifican respectivamente Strategy, Composite y Template Method como patrones nuevos. P-05 queda como deuda aceptada: demuestra que el equipo no adopta un patron cuando su costo supera el beneficio.
+P-01 encapsula el parseo del inventario en el creador de cada tipo; P-02, P-03 y P-04 justifican respectivamente Strategy, Composite y Template Method como patrones nuevos. P-05 queda como deuda aceptada: demuestra que el equipo no adopta un patron cuando su costo supera el beneficio.

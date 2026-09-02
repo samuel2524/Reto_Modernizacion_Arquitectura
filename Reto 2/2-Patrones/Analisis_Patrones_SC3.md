@@ -33,11 +33,9 @@ Strategy favorece OCP y DIP porque la venta depende del contrato `IPoliticaConve
 
 ## Factory Method en P-01
 
-Hoy hay dos caminos para crear medicamentos. `CreadorMedicamentoCapsula.cs:10-26` usa los datos leidos del archivo, mientras `ProductoFactory.cs:13-42` crea capsulas y liquidos con valores definidos dentro de la fabrica. La carga actual usa el primer camino y `ProductoFactory` no tiene consumidores.
+`CargadorProductosTxt.cs:32-45` lee cada linea con `linea.Split(';')` y construye `DatosProducto` usando posiciones fijas (`datos[0]` a `datos[5]`), mientras los campos variables de cada tipo se pasan como `datos[6..]` y cada creador los interpreta por indice (`CreadorMedicamentoCapsula.cs:15`, `CreadorCosmetico.cs:18-19`, `CreadorComestible.cs:16`). Agregar un campo nuevo obliga a tocar `DatosProducto`, `CargadorProductosTxt` y cada creador: **3 archivos / 3 clases**.
 
-El TO-BE conservara `ICreadorProducto`, los creadores concretos y `SelectorCreadorProducto`. `ProductoFactory` se eliminara para que no queden dos politicas de construccion para el mismo tipo de producto.
-
-El cambio elimina un archivo y una clase, no agrega abstracciones y no modifica la salida del programa. Factory Method ya estaba en el AS-IS, por lo que se documenta como una consolidacion y no como un patron nuevo del Reto 2.
+La propuesta mantiene a `ICreadorProducto` como el unico punto que sabe convertir una fila en producto. Consolidar Factory Method no resuelve por si solo el orden posicional de las columnas: encapsula la construccion en cada creador, pero el parseo de la posicion de cada columna se conserva tal cual y queda como deuda declarada mientras no se introduce un mecanismo de lectura propio. El cambio no agrega abstracciones y no modifica la salida del programa. Factory Method ya estaba en el AS-IS, por lo que se documenta como una consolidacion y no como un patron nuevo del Reto 2.
 
 ## Composite para las alertas
 
