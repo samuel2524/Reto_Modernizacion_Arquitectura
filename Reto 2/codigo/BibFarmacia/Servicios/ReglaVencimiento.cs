@@ -1,36 +1,21 @@
 using BibFarmacia.Clases;
 using BibFarmacia.Eventos;
+using BibFarmacia.Interfaces;
 
 namespace BibFarmacia.Servicios
 {
-    public class ServicioMonitoreoProductos
+    public class ReglaVencimiento :
+        IReglaAlerta
     {
-        public EventoStockMinimo EventoStock;
         public EventoVencimiento EventoVencimiento;
 
-        public ServicioMonitoreoProductos()
+        public ReglaVencimiento()
         {
-            EventoStock =
-                new EventoStockMinimo();
-
             EventoVencimiento =
                 new EventoVencimiento();
         }
 
-        public void VerificarStock(
-            IEnumerable<Producto> productos)
-        {
-            foreach (var producto in productos)
-            {
-                if (producto.Stock <=
-                    producto.StockMinimo)
-                {
-                    EventoStock.Disparar(producto);
-                }
-            }
-        }
-
-        public void VerificarVencimiento(
+        public void Verificar(
             IEnumerable<Producto> productos)
         {
             foreach (var producto in productos)

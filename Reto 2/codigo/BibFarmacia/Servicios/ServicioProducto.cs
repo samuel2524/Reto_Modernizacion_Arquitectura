@@ -43,6 +43,16 @@ namespace BibFarmacia.Servicios
             return productos;
         }
 
+        public Producto? BuscarPorNombre(
+            string nombre)
+        {
+            return productos
+                .FirstOrDefault(p =>
+                    p.Nombre.ToLower()
+                    .Contains(
+                        nombre.ToLower()));
+        }
+
         public string CargarDesdeArchivo(
             string ruta)
         {

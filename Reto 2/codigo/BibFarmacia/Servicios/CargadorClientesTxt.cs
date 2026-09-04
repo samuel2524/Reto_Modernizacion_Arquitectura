@@ -1,46 +1,53 @@
 using BibFarmacia.Clases;
+using BibFarmacia.Enum;
 using BibFarmacia.Interfaces;
 
 namespace BibFarmacia.Servicios
 {
     public class CargadorClientesTxt :
+        CargadorTxt<Cliente>,
         ICargadorClientes
     {
-        public string Cargar(
-            string ruta,
-            ICollection<Cliente> destino)
+        protected override Cliente ParsearCampos(
+            string[] campos)
         {
-            try
+            if (campos.Length == 4)
             {
-                if (!File.Exists(ruta))
-                {
-                    return "Archivo no encontrado";
-                }
-
-                string[] lineas =
-                    File.ReadAllLines(ruta);
-
-                foreach (string linea in lineas)
-                {
-                    string[] datos =
-                        linea.Split(';');
-
-                    Cliente cliente =
-                        new Cliente(
-                            datos[0],
-                            datos[1],
-                            datos[2],
-                            datos[3]);
-
-                    destino.Add(cliente);
-                }
-
-                return "Clientes cargados";
+                return new Cliente(
+                    campos[0],
+                    campos[1],
+                    campos[2],
+                    campos[3]);
             }
-            catch (Exception ex)
+
+            if (campos.Length == 8)
             {
-                return ex.Message;
+                TipoBeneficioConvenio beneficio =
+                    System.Enum.Parse<TipoBeneficioConvenio>(
+                        campos[5],
+                        true);
+
+                Convenio convenio =
+                    new Convenio(
+                        campos[4],
+                        beneficio,
+                        decimal.Parse(campos[6]),
+                        decimal.Parse(campos[7]));
+
+                return new Cliente(
+                    campos[0],
+                    campos[1],
+                    campos[2],
+                    campos[3],
+                    convenio);
             }
+
+            throw new FormatException(
+                "Formato de cliente inválido");
         }
+
+        protected override string
+            MensajeCargaExitosa =>
+                "Clientes cargados";
     }
 }

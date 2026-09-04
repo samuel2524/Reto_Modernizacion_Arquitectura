@@ -4,45 +4,23 @@ using BibFarmacia.Interfaces;
 namespace BibFarmacia.Servicios
 {
     public class CargadorUsuariosTxt :
+        CargadorTxt<Usuario>,
         ICargadorUsuarios
     {
-        public string Cargar(
-            string ruta,
-            ICollection<Usuario> destino)
+        protected override Usuario ParsearCampos(
+            string[] campos)
         {
-            try
-            {
-                if (!File.Exists(ruta))
-                {
-                    return "Archivo no encontrado";
-                }
-
-                string[] lineas =
-                    File.ReadAllLines(ruta);
-
-                foreach (string linea in lineas)
-                {
-                    string[] datos =
-                        linea.Split(';');
-
-                    Usuario usuario =
-                        new Usuario(
-                            datos[0],
-                            datos[1],
-                            datos[2],
-                            datos[3],
-                            datos[4],
-                            datos[5]);
-
-                    destino.Add(usuario);
-                }
-
-                return "Usuarios cargados";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            return new Usuario(
+                campos[0],
+                campos[1],
+                campos[2],
+                campos[3],
+                campos[4],
+                campos[5]);
         }
+
+        protected override string
+            MensajeCargaExitosa =>
+                "Usuarios cargados";
     }
 }

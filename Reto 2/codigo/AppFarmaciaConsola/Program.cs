@@ -1,4 +1,5 @@
 ﻿using BibFarmacia.Aspectos;
+using BibFarmacia.Enum;
 using BibFarmacia.Factories;
 using BibFarmacia.Interfaces;
 using BibFarmacia.Servicios;
@@ -51,20 +52,52 @@ ServicioUsuario servicioUsuario =
 ServicioMovimiento servicioMovimiento =
     new ServicioMovimiento();
 
+IDictionary<TipoBeneficioConvenio,
+    IPoliticaConvenio> politicasConvenio =
+    new Dictionary<TipoBeneficioConvenio,
+        IPoliticaConvenio>
+    {
+        [TipoBeneficioConvenio.SoloDescuento] =
+            new PoliticaSoloDescuento(),
+        [TipoBeneficioConvenio.SoloCredito] =
+            new PoliticaSoloCredito(),
+        [TipoBeneficioConvenio.DescuentoCredito] =
+            new PoliticaDescuentoCredito()
+    };
+
+ServicioVentaConvenio servicioVentaConvenio =
+    new ServicioVentaConvenio(
+        politicasConvenio,
+        servicioMovimiento);
+
 ServicioVenta servicioVenta =
     new ServicioVenta(
-        servicioProducto,
         servicioMovimiento);
 
 ServicioFidelizacion servicioFidelizacion =
     new ServicioFidelizacion();
 
-ServicioMonitoreoProductos servicioMonitoreoProductos =
-    new ServicioMonitoreoProductos();
+ReglaStockMinimo reglaStockMinimo =
+    new ReglaStockMinimo();
+
+ReglaVencimiento reglaVencimiento =
+    new ReglaVencimiento();
+
+MonitorCompuesto monitorCompuesto =
+    new MonitorCompuesto();
+
+monitorCompuesto.Agregar(
+    reglaStockMinimo);
+
+monitorCompuesto.Agregar(
+    reglaVencimiento);
+
+IReglaAlerta monitorAlertas =
+    monitorCompuesto;
 
 // ================= EVENTOS =================
 
-servicioMonitoreoProductos.EventoStock.StockMinimo +=
+reglaStockMinimo.EventoStock.StockMinimo +=
     mensaje =>
     {
         Console.ForegroundColor =
@@ -75,7 +108,7 @@ servicioMonitoreoProductos.EventoStock.StockMinimo +=
         Console.ResetColor();
     };
 
-servicioMonitoreoProductos.EventoVencimiento.Vencimiento +=
+reglaVencimiento.EventoVencimiento.Vencimiento +=
     mensaje =>
     {
         Console.ForegroundColor =
@@ -177,12 +210,96 @@ Console.WriteLine(
 
 Console.ResetColor();
 
+bool ejecutarConvenio =
+    args.Any(a =>
+        string.Equals(
+            a,
+            "--convenio",
+            StringComparison.OrdinalIgnoreCase));
+
+if (ejecutarConvenio)
+{
+    Console.WriteLine(
+        "\n===== VENTA CON CONVENIO =====");
+
+    Console.Write("Cédula cliente: ");
+    string cedula =
+        Console.ReadLine()!;
+
+    Console.Write("Nombre producto: ");
+    string nombreProducto =
+        Console.ReadLine()!;
+
+    Console.Write("Cantidad: ");
+    int cantidadConvenio =
+        int.Parse(Console.ReadLine()!);
+
+    var clienteConvenio =
+        servicioCliente
+            .ObtenerClientes()
+            .FirstOrDefault(c =>
+                c.Cedula == cedula);
+
+    if (clienteConvenio == null)
+    {
+        Console.WriteLine(
+            "Cliente no encontrado");
+
+        return;
+    }
+
+    var productoConvenio =
+        servicioProducto
+            .BuscarPorNombre(
+                nombreProducto);
+
+    if (productoConvenio == null)
+    {
+        Console.WriteLine(
+            "Producto no encontrado");
+
+        return;
+    }
+
+    var resultadoConvenio =
+        servicioVentaConvenio
+            .VenderConConvenio(
+                clienteConvenio,
+                productoConvenio,
+                cantidadConvenio);
+
+    if (resultadoConvenio.Aprobado)
+    {
+        decimal subtotalConvenio =
+            productoConvenio.Precio *
+            cantidadConvenio;
+
+        Console.WriteLine(
+            "Venta con convenio aprobada");
+        Console.WriteLine(
+            $"Subtotal: {subtotalConvenio}");
+        Console.WriteLine(
+            $"Descuento: " +
+            $"{resultadoConvenio.Descuento}");
+        Console.WriteLine(
+            $"Total: {resultadoConvenio.Total}");
+        Console.WriteLine(
+            $"Cupo restante: " +
+            $"{resultadoConvenio.CupoRestante}");
+    }
+    else
+    {
+        Console.WriteLine(
+            "Venta con convenio rechazada: " +
+            resultadoConvenio.Motivo);
+    }
+
+    return;
+}
+
 // ================= ALERTAS =================
 
-servicioMonitoreoProductos.VerificarStock(
-    servicioProducto.ObtenerProductos());
-
-servicioMonitoreoProductos.VerificarVencimiento(
+monitorAlertas.Verificar(
     servicioProducto.ObtenerProductos());
 
 // ================= MENÚ =================
@@ -272,10 +389,8 @@ while (opcion != 7)
 
             var productoBuscado =
                 servicioProducto
-                .ObtenerProductos()
-                .FirstOrDefault(p =>
-                    p.Nombre.ToLower()
-                    .Contains(nombre.ToLower()));
+                .BuscarPorNombre(
+                    nombre);
 
             if (productoBuscado != null)
             {
@@ -308,8 +423,8 @@ while (opcion != 7)
                 Console.ReadLine()!;
 
             var productoVenta =
-                servicioVenta
-                .BuscarProducto(
+                servicioProducto
+                .BuscarPorNombre(
                     nombreVenta);
 
             if (productoVenta != null)
@@ -380,15 +495,9 @@ while (opcion != 7)
             Console.WriteLine(
                 "\nVerificando alertas...");
 
-            servicioMonitoreoProductos
-                .VerificarStock(
-                    servicioProducto
-                        .ObtenerProductos());
-
-            servicioMonitoreoProductos
-                .VerificarVencimiento(
-                    servicioProducto
-                        .ObtenerProductos());
+            monitorAlertas.Verificar(
+                servicioProducto
+                    .ObtenerProductos());
 
             break;
 

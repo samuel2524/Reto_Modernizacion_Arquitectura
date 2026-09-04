@@ -1,6 +1,6 @@
-﻿Carlos;123;3001111111;carlos@gmail.com
-Ana;456;3002222222;ana@gmail.com
-Juan;789;3003333333;juan@gmail.com
+﻿Carlos;123;3001111111;carlos@gmail.com;EmpresaAcme;SoloDescuento;10;0
+Ana;456;3002222222;ana@gmail.com;BancoCentral;SoloCredito;0;20000
+Juan;789;3003333333;juan@gmail.com;UniversidadCentral;DescuentoCredito;10;20000
 Maria;741;3004444444;maria@gmail.com
 Pedro;852;3005555555;pedro@gmail.com
 Laura;963;3006666666;laura@gmail.com
