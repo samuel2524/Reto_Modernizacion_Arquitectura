@@ -1,75 +1,89 @@
-# Reto 2 - Analisis de puntos de dolor
+# Reto 2: análisis de puntos de dolor
 
 ## Alcance y criterio
 
-Este analisis toma como AS-IS la solucion de `Trabajo Farmacia/03-Src`. Solo incluye rigideces relacionadas con creacion, composicion y coordinacion de objetos; no repite defectos funcionales del Reto 1. El costo se mide contando los archivos y clases existentes que hoy deben abrirse o modificarse para atender el escenario descrito.
+El análisis usa como AS-IS la solución ubicada en `Trabajo Farmacia/03-Src`. Solo se incluyen rigideces relacionadas con la creación, composición y coordinación de objetos. El costo distingue archivos y tipos existentes que habría que revisar o modificar de los nuevos que habría que crear. Los escenarios de evolución ilustran el costo; no autorizan a cambiar las salidas actuales.
 
-| ID | Punto de dolor | Costo actual | Prioridad | Decision |
-|---|---|---:|---|---|
-| P-01 | El formato de productos esta acoplado al orden posicional de sus columnas | 3 archivos / 3 clases | Alta | Intervenir |
-| P-02 | La venta no admite politicas comerciales variables | 4 archivos / 4 clases | Alta | Intervenir |
-| P-03 | Cada nueva alerta amplia deteccion, evento y composicion | 3 archivos / 3 clases por alerta | Alta | Intervenir |
-| P-04 | El algoritmo de carga TXT esta triplicado | 3 archivos / 3 clases | Media | Intervenir |
-| P-05 | El menu esta centralizado en un `switch` | 1 archivo / 1 clase implicita | Baja | **No intervenir** |
+La columna `Origen` indica quién encontró el punto de dolor. No indica quién propuso el patrón o la solución posterior. P-01 se detectó con apoyo de IA; P-02 a P-05 surgieron de la revisión del equipo.
 
-## P-01 - El formato de productos esta acoplado al orden posicional de sus columnas
+La prioridad es alta cuando el punto afecta SC-3 o exige ampliar varias estructuras por cada variante. Es media cuando hay duplicación comprobada en dos o más archivos, pero el flujo actual funciona. Es baja cuando el cambio está localizado y la solución costaría más que mantenerlo.
 
-**Donde:** `CargadorProductosTxt.cs:32-45` lee cada linea con `linea.Split(';')` y construye `DatosProducto` usando posiciones fijas (`datos[0]` a `datos[5]`). Los campos variables de cada tipo de producto se pasan como `datos[6..]` y cada creador los interpreta por indice: `CreadorMedicamentoCapsula.cs:15` usa `datos.Extra[0]`, `CreadorCosmetico.cs:18-19` usa `datos.Extra[0]` y `datos.Extra[1]`, `CreadorComestible.cs:16` usa `datos.Extra[0]`.
+| ID | Dónde | Punto de dolor | Costo actual | Prioridad | Decisión | Origen |
+|---|---|---|---:|---|---|---|
+| P-01 | `Program.cs:273-278`; `ServicioVenta.cs:24-32` | La búsqueda de productos está duplicada entre la consulta y la venta | 2 archivos / 2 clases | Media | Centralizar sin patrón | IA asistida |
+| P-02 | `ServicioVenta.cs`; `IDescuento.cs`; `ServicioDescuento.cs`; `Program.cs` | La venta no admite políticas comerciales variables | 4 archivos / 4 tipos | Alta | Intervenir con Strategy | Propio |
+| P-03 | `ServicioMonitoreoProductos.cs`; eventos; `Program.cs` | Cada alerta nueva amplía la detección, el evento y la composición | 2 archivos/clases existentes + 1 archivo/clase nuevo por alerta | Alta | Intervenir con Composite | Propio |
+| P-04 | Los tres `Cargador*Txt.cs` | El algoritmo de carga TXT está triplicado | 3 archivos / 3 clases | Media | Intervenir con Template Method | Propio |
+| P-05 | `Program.cs:203-413` | El menú está centralizado en un `switch` | 1 archivo / 1 clase implícita | Baja | No intervenir | Propio |
 
-**Detalle del codigo:** `DatosProducto.cs:5-11` expone cada campo como propiedad fija y guarda el resto sin nombrar en `Extra: IReadOnlyList<string>`. El cargador conoce el orden exacto de las columnas (`datos[0]` es el tipo, `datos[1]` el nombre, ... `datos[5]` el vencimiento) y delega la interpretacion de los campos restantes por indice en cada creador.
+## P-01: búsqueda de productos duplicada
 
-**Sintoma:** agregar un campo nuevo al inventario de productos, por ejemplo la marca del laboratorio o un regimen de precio, obliga a abrir tres lugares a la vez: el DTO para declarar la propiedad, el cargador para leer la posicion de la columna y cada creador que depende de `Extra[i]` por su indice. El formato del archivo queda acoplado a tres clases separadas y una reordenacion de columnas rompe silenciosamente la carga.
+**Dónde:** la opción 3 del menú busca directamente en `Program.cs:273-278`. La opción 4 llama a `ServicioVenta.BuscarProducto`, cuya implementación está en `ServicioVenta.cs:24-32`.
 
-**Escenario y costo:** si el inventario agrega un campo (p. ej. marca) se debe modificar `DatosProducto` (declarar la propiedad), `CargadorProductosTxt` (leer la nueva posicion) y ajustar cada creador al desplazamiento de la columna: **3 archivos / 3 clases**. Con los tres tipos actuales (medicamento, cosmético, comestible), el costo crece con cada tipo nuevo que lea columnas por indice.
+**Qué ocurre:** ambos lugares recorren la colección, toman la primera coincidencia parcial del nombre e ignoran diferencias entre mayúsculas y minúsculas. El criterio es el mismo, pero está escrito dos veces.
 
-**Por que importa:** el TO-BE debe encapsular el parseo de cada tipo de producto en su propio creador, de modo que una fila se convierta en `DatosProducto` sin que el cargador tenga que conocer la posicion de cada columna. Ese es el punto donde evaluar Builder o el refuerzo de Factory Method como mecanismo unico de lectura y construccion.
+**Escenario y costo:** si se autorizara priorizar una coincidencia exacta antes de una parcial, habría que cambiar `Program` y `ServicioVenta`: **2 archivos / 2 clases**. Si solo se modifica uno, consultar y vender podrían seleccionar productos distintos con la misma entrada.
 
-## P-02 - La venta no admite politicas comerciales variables
+**Cambio propuesto:** `ServicioProducto`, que administra el catálogo, incorporará `BuscarPorNombre(string nombre)`. Las opciones 3 y 4 usarán esa operación. `ServicioVenta` dejará de buscar productos y conservará su operación `Vender(Producto, int)`. SC-3 reutilizará la misma búsqueda para la venta con convenio.
 
-**Donde:** `BibFarmacia/Servicios/ServicioVenta.cs:13-22` fija sus dos colaboradores y `35-52` fija toda la secuencia de venta. `Interfaces/IDescuento.cs:9-12` y `Servicios/ServicioDescuento.cs:11-16` definen un descuento aislado que no participa en esa secuencia. `Program.cs:51-60` tampoco lo conecta.
+La centralización inicial toca `Program`, `ServicioVenta` y `ServicioProducto`: **3 archivos / 3 clases**. Después, cambiar el criterio costará **1 archivo / 1 clase**. No se crean clases.
 
-**Detalle del codigo:** `ServicioVenta.cs:39` descuenta inventario, `41-46` crea el movimiento y `48-50` lo registra. No existe un punto donde elegir una regla comercial antes de completar la operacion. `ServicioDescuento.cs:15` deja fijo un unico 10 %, sin contexto de convenio.
+**Por qué no se adopta un patrón:** solo existe un criterio de búsqueda. Introducir Strategy, Repository u otra abstracción agregaría estructura sin un segundo comportamiento que la justifique. El cambio consiste en asignar la búsqueda al servicio que ya administra el catálogo.
 
-**Sintoma:** SC-3 exige seleccionar descuentos y credito segun empresa, banco, cooperativa o institucion. Hoy esa variacion tendria que incorporarse dentro de `ServicioVenta` o mediante condicionales externos.
+**Origen:** hallazgo asistido por IA y comprobado por el equipo en el código citado.
 
-**Escenario y costo:** para conectar siquiera el descuento existente hay que estudiar o modificar `ServicioVenta`, `IDescuento`, `ServicioDescuento` y `Program`: **4 archivos / 4 clases**. Cada convenio agregado aumentaria las ramas del flujo central si no se crea un punto de variacion.
+## P-02: la venta no admite políticas comerciales variables
 
-**Por que importa:** afecta el caso de uso central y es el punto mas directamente relacionado con SC-3. Es candidato natural para evaluar `Strategy`, pero la decision se documentara comparandola con alternativas.
+**Dónde:** `ServicioVenta.cs:35-52` fija la secuencia de la venta normal. `IDescuento.cs:9-12` solo recibe un precio, `ServicioDescuento.cs:11-16` aplica un 10 % fijo y `Program.cs:51-60` no conecta ese servicio con la venta.
 
-## P-03 - Cada nueva alerta amplia deteccion, evento y composicion
+**Qué ocurre:** no hay un punto donde elegir una regla comercial según el convenio del cliente. SC-3 solicita convenios para descuentos y crédito descontable con entidades. El diseño adopta las modalidades de descuento, crédito y ambas combinadas. Sin un punto de variación, esas reglas terminarían como condicionales dentro de la venta o del menú.
 
-**Donde:** `ServicioMonitoreoProductos.cs:8-18` crea dos eventos concretos; `20-31` implementa stock minimo y `33-47` vencimiento. `Program.cs:62-87` construye el monitor y suscribe ambos canales.
+**Escenario y costo:** para integrar el descuento existente habría que revisar `ServicioVenta`, `IDescuento`, `ServicioDescuento` y `Program`: **4 archivos / 4 tipos (3 clases y 1 interfaz)**. Cada modalidad nueva añadiría otra rama al flujo central.
 
-**Detalle del codigo:** cada regla tiene su propio recorrido de productos y dispara un tipo concreto en `ServicioMonitoreoProductos.cs:28` o `44-45`. La salida debe conectarse otra vez en `Program.cs:67-87`.
+**Cambio propuesto:** una venta con convenio usará `IPoliticaConvenio` y tres estrategias, una por cálculo: solo descuento, solo crédito y descuento con crédito. La entidad será un dato de `Convenio`, no una estrategia. `SolicitudConvenio` llevará únicamente los valores que necesita la evaluación y `ResultadoConvenio` no modificará estado. `ServicioVentaConvenio` confirmará stock, movimiento y cupo cuando la evaluación sea aprobada. La venta normal conservará su comportamiento.
 
-**Sintoma:** agregar una alerta de sobrestock obliga a crear otro evento, ampliar el monitor y ampliar el ensamblaje. Deteccion, publicacion y presentacion cambian juntas.
+**Interpretación adoptada para SC-3:** el Anexo B solicita convenios para descuentos y crédito descontable, sin detallar su operación. Para esta entrega se modela el crédito como una compra cuyo total se descuenta del cupo disponible; no como otro descuento sobre el precio. Se adopta cero o un convenio por cliente y tres modalidades: descuento, crédito y descuento con crédito. En la modalidad combinada primero se aplica el descuento y después se consume el cupo por el total resultante. El cupo se mantiene en memoria; no se implementan cobros, cuotas, intereses, descuentos de nómina ni persistencia. Estas son decisiones de alcance del diseño, no reglas detalladas que el enunciado imponga literalmente.
 
-**Escenario y costo:** una alerta nueva requiere un archivo de evento, `ServicioMonitoreoProductos.cs` y `Program.cs`: **3 archivos / 3 clases**.
+**Origen:** punto encontrado por el equipo al revisar el flujo de venta y compararlo con SC-3.
 
-**Por que importa:** el costo se repite por cada regla y el monitor crece horizontalmente. `Composite` permite agrupar reglas independientes y ejecutarlas todas sin alterar las alertas actuales.
+## P-03: cada alerta nueva amplía varias estructuras
 
-## P-04 - El algoritmo de carga TXT esta triplicado
+**Dónde:** `ServicioMonitoreoProductos.cs:8-18` mantiene dos eventos concretos; `20-31` verifica stock y `33-47` verifica vencimiento. `Program.cs:62-87` construye el monitor y conecta ambos canales.
 
-**Donde:** `CargadorProductosTxt.cs:22-63`, `CargadorClientesTxt.cs:13-43` y `CargadorUsuariosTxt.cs:13-45` repiten la misma estructura de control.
+**Qué ocurre:** cada regla tiene su propio recorrido y publica mediante un evento concreto. Agregar una alerta obliga a crear el evento, ampliar el monitor y cambiar el ensamblaje.
 
-**Detalle del codigo:** los tres verifican `File.Exists`, ejecutan `File.ReadAllLines`, recorren lineas, aplican `Split(';')`, crean una entidad, la agregan al destino y capturan `Exception`. Solo varia la conversion de una fila.
+**Escenario y costo:** para una alerta de sobrestock con evento propio, hoy se modifican `ServicioMonitoreoProductos` y `Program`: **2 archivos / 2 clases existentes**. Se crea además el evento: **1 archivo / 1 clase nueva**.
 
-**Sintoma:** una regla comun de formato debe implementarse tres veces. Por ejemplo, aceptar encabezados o ignorar comentarios exige mantener sincronizados tres algoritmos casi iguales.
+**Costo después del cambio:** se modifica `Program` (**1 archivo / 1 clase existente**) y se crean la hoja y su evento (**2 archivos / 2 clases nuevas**). Ambos escenarios involucran tres archivos. La mejora es reducir de dos a una las clases existentes modificadas y conservar el algoritmo coordinador y las reglas anteriores.
 
-**Escenario y costo:** ese cambio obliga a modificar los tres cargadores: **3 archivos / 3 clases**.
+**Cambio propuesto:** `IReglaAlerta` será el contrato común. `ReglaStockMinimo` y `ReglaVencimiento` serán las hojas, y `MonitorCompuesto` implementará el mismo contrato para ejecutar una colección ordenada de reglas. Los eventos existentes se conservan.
 
-**Por que importa:** la repeticion encarece cambios transversales y puede producir comportamientos distintos entre archivos. Es un candidato para evaluar `Template Method`, conservando especializado solamente el parseo.
+**Comparación con una lista simple:** un coordinador que recorra una lista de reglas también resuelve la extensión de alertas y es una alternativa válida. Se mantiene Composite de forma mínima: las dos hojas y el grupo actual de stock-vencimiento exponen `Verificar(IEnumerable<Producto>)` mediante `IReglaAlerta`. `Program` invoca el grupo a través de ese contrato y configura sus miembros al construirlo. Frente a un coordinador con la misma lista y una API propia, el costo adicional es que ese mismo coordinador implemente la interfaz; no se añaden clases ni agrupaciones hipotéticas. El beneficio específico es una operación uniforme para la regla individual y el conjunto. No se atribuye al patrón exclusividad para ejecutar todas las reglas ni una reducción del total de archivos por alerta.
 
-## P-05 - Menu centralizado en un `switch` - NO SE INTERVIENE
+**Origen:** punto encontrado por el equipo durante la revisión del monitor y su composición.
 
-**Donde:** `AppFarmaciaConsola/Program.cs:203-216` declara y selecciona siete opciones; `218-413` contiene sus flujos completos.
+## P-04: algoritmo de carga TXT triplicado
 
-**Detalle del codigo:** cada opcion es una rama del mismo `switch`. Agregar "Ver movimientos" requiere una etiqueta y un `case`, pero no obliga a cambiar servicios existentes si la consulta ya esta disponible.
+**Dónde:** `CargadorProductosTxt.cs:22-63`, `CargadorClientesTxt.cs:13-43` y `CargadorUsuariosTxt.cs:13-45` repiten la misma estructura de control.
 
-**Escenario y costo actual:** agregar esa opcion cuesta **1 archivo / 1 clase implicita**.
+**Qué ocurre:** los tres validan la existencia del archivo, leen las líneas, separan campos, convierten una fila, agregan el resultado y manejan errores. Solo cambia la conversión de los campos a la entidad correspondiente.
 
-**Razon para descartarlo:** aplicar `Command` literalmente exigiria como minimo `IComandoMenu`, siete comandos para las opciones actuales y modificar `Program`: **9 archivos / 9 clases**. El sistema tiene un solo menu y no necesita deshacer, historial, atajos ni varias interfaces. El remedio multiplica por nueve el costo estructural para resolver un cambio que hoy es local; por eso se acepta conscientemente esta rigidez.
+**Escenario y costo:** aceptar encabezados o ignorar comentarios obligaría a modificar los tres cargadores: **3 archivos / 3 clases**.
 
-## Conclusion
+**Cambio propuesto:** `CargadorTxt<T>` concentrará el flujo común. Cada cargador implementará `ParsearCampos(string[] campos)` y conservará su mensaje de carga. `CargadorClientesTxt` también interpretará los campos opcionales de convenio requeridos por SC-3.
 
-P-01 encapsula el parseo del inventario en el creador de cada tipo; P-02, P-03 y P-04 justifican respectivamente Strategy, Composite y Template Method como patrones nuevos. P-05 queda como deuda aceptada: demuestra que el equipo no adopta un patron cuando su costo supera el beneficio.
+**Origen:** punto encontrado por el equipo al comparar los tres cargadores.
+
+## P-05: menú centralizado en un `switch`
+
+**Dónde:** `Program.cs:203-216` presenta las opciones y `Program.cs:218-413` contiene sus flujos.
+
+**Escenario y costo actual:** agregar una opción como "Ver movimientos" exige modificar **1 archivo / 1 clase implícita**.
+
+**Decisión:** no se interviene. Aplicar Command exigiría al menos una interfaz, siete comandos para las opciones actuales y cambios en `Program`: **9 archivos / 9 tipos (8 clases y 1 interfaz)**. El sistema tiene un solo menú y no necesita historial, deshacer ni otra interfaz que reutilice los comandos. El remedio cuesta más que la rigidez actual.
+
+**Origen:** punto encontrado y descartado por el equipo durante la revisión del menú.
+
+## Conclusión
+
+P-01 se resuelve con una operación común en `ServicioProducto`, sin añadir un patrón. P-02, P-03 y P-04 justifican Strategy, Composite y Template Method. P-05 queda como deuda aceptada porque su solución propuesta sería más costosa que el problema actual.

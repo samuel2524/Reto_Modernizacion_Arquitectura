@@ -1,34 +1,29 @@
-# Ficha de patron - Strategy
+# Ficha de patrón: Strategy
 
-**Patron y punto de dolor que resuelve**
+## Patrón y punto de dolor que resuelve
 
-`Strategy` responde a **P-02** (la venta no admite politicas comerciales variables). La evidencia esta en `ServicioVenta.cs:35-52`: `Vender` descuenta inventario, crea el movimiento y lo registra sin ningun punto donde elegir una regla comercial antes de completar la operacion. El contrato de `IDescuento.cs:9-12` solo recibe un precio y `ServicioDescuento.cs:11-16` aplica siempre el 10 %. SC-3 exige seleccionar descuentos y credito segun empresa, banco, cooperativa o institucion; hoy esa variacion tendria que hundirse en condicionales dentro de `ServicioVenta`.
+P-02: `ServicioVenta.cs:35-52` registra ventas sin evaluar convenios; `IDescuento.cs:9-12` recibe solo un precio y `ServicioDescuento.cs:11-16` fija el 10 %. SC-3 solicita descuentos y crédito descontable. El equipo interpreta crédito como consumo de cupo en memoria y adopta descuento, crédito o ambos; no incorpora cuotas ni cobros.
 
-**Alternativas que evaluamos**
+## Alternativas evaluadas
 
-1. **No hacer nada** (descartada): dejaria la variacion comercial como condicionales dentro de `ServicioVenta`, que es exactamente el punto rígido que P-02 declara; cada convenio nuevo agregaria ramas al flujo central de la venta.
-2. **Facade** (descartada): `ServicioConvenios` coordinaría las estrategias, pero `Program` ya es el Composition Root y no hay un subsistema complejo que ocultar; agregaria dos clases sin resolver la seleccion.
-3. **Abstract Factory** (descartada): no hay una familia real de objetos que crear de forma coordinada; solo cambia el cálculo de la politica.
-4. **Strategy** (adoptada): la venta con convenio elige una implementacion de `IPoliticaConvenio` en tiempo de ejecucion.
+**No hacer nada:** descartado; las modalidades quedarían como condicionales en venta o menú. **Facade:** descartada; otra entrada no separa los cálculos que ya coordina el servicio. **Abstract Factory:** descartada; no hay familias de objetos relacionados. **Strategy:** adoptada para seleccionar cálculos mediante un contrato.
 
-**Que sale y que entra**
+## Qué sale y qué entra
 
-*Sale:* la idea de que `ServicioVenta` fije internamente el criterio comercial. `IDescuento` y `ServicioDescuento` se conservan sin cambios (la venta normal no los usa hoy y su conducta no se altera).
+Salen `IDescuento` y `ServicioDescuento`, sin consumidores en la venta. Entran `IPoliticaConvenio`, las tres políticas y `ServicioVentaConvenio` como contexto. Los tipos de apoyo son `Convenio`, `TipoBeneficioConvenio`, `SolicitudConvenio` y `ResultadoConvenio`. No entra `TipoEntidadConvenio`.
 
-*Entra:* `IPoliticaConvenio` (contrato) con su metodo `Evaluar(SolicitudConvenio)`, que devuelve subtotal, descuento, total, autorizacion del credito, cupo restante y motivo de rechazo. Entran tres implementaciones estrategicas: `PoliticaSoloDescuento`, `PoliticaSoloCredito` y `PoliticaDescuentoCredito`. Y entra `ServicioVentaConvenio`, que recibe la politica y usa su resultado.
+## Cómo se relaciona
 
-**Como se relaciona**
+`Program` registra las políticas por beneficio y construye el servicio con `ServicioMovimiento`. El servicio calcula el subtotal y entrega valores inmutables: subtotal, porcentaje y cupo. `Evaluar(SolicitudConvenio)` devuelve aprobación, descuento, total, cupo calculado y motivo. Las políticas no modifican estado. Un rechazo no cambia stock, movimientos ni cupo; la aprobación permite al servicio confirmarlos. Descuento conserva el cupo; crédito consume el subtotal; la combinación consume el total descontado. Template Method carga el convenio opcional; P-01 aporta la búsqueda común.
 
-`Program` (Composition Root) registra en el conjunto las estrategias disponibles. Al atender una venta con convenio, `ServicioVentaConvenio` selecciona la implementacion de `IPoliticaConvenio` segun el convenio del cliente y la invoca. La venta normal no participa y queda como estaba. No interactua con otro patron adoptado en este punto: es un mecanismo independiente de variacion.
+## Impacto
 
-**Impacto**
+Entran siete clases, una interfaz y un enum. Cambian `Cliente`, `CargadorClientesTxt`, `Program` y `clientes.txt`; salen una clase y una interfaz. Se permiten cero o un convenio por cliente y filas antiguas de cuatro campos. SC-3 usa una ruta propia; no se implementa SC-2 ni se altera SC-1 o la venta normal.
 
-Clases creadas: `IPoliticaConvenio`, `PoliticaSoloDescuento`, `PoliticaSoloCredito`, `PoliticaDescuentoCredito`, `ServicioVentaConvenio` (y el tipo `SolicitudConvenio`). Clases modificadas: `Program` (registro de estrategias y punto de entrada de la nueva venta). Clases eliminadas: ninguna. Efecto sobre las solicitudes del Anexo B: habilita SC-3 sin tocar la venta normal; SC-1 y SC-2 no se ven afectados.
+## Qué cuesta
 
-**Que cuesta**
+Nueve tipos y más pasos para depurar. Una modalidad nueva con el mismo contrato exige una estrategia nueva, ampliar el enum y modificar el registro en `Program`. Datos nuevos exigirían revisar también contrato y carga. Se acepta este costo para separar los tres cálculos adoptados.
 
-Se paga mas indireccion: una interfaz, tres estrategias y un servicio nuevo, ademas del registro en `Program`. La venta con convenio agrega una capa que la venta simple no tiene, y depurar una politica requiere seguir el contrato. Es el costo de tener un punto de variacion real, que solo se justifica porque SC-3 lo exige.
+## Origen
 
-**Origen**
-
-Propuesta de la herramienta aceptada tras verificarla contra el codigo. Queda registrada en la bitacora como **B-03** (Strategy para las politicas de convenio) y complementada por **B-04** (no crear una estrategia por entidad, sino por tipo de calculo) y **B-05** (rechazo de la Facade adicional).
+Según los registros del equipo: B-03 acepta Strategy; B-04 distingue políticas por cálculo, no por entidad; B-05 rechaza otra Facade. La ampliación del costo y el alcance explícito proceden de esta revisión asistida y deben reflejarse en la bitácora en preparación.

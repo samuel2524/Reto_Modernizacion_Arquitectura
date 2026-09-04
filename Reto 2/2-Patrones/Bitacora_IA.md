@@ -1,12 +1,27 @@
-| ID | Que consultamos | Que propuso la IA | Que hicimos | Argumento del equipo y evidencia |
+# Bitácora de decisiones frente a la IA
+
+La bitácora registra decisiones de diseño, no una lista de consultas. Cada entrada indica si el equipo aceptó, corrigió o rechazó la propuesta después de compararla con el código y el alcance del reto.
+
+| ID | Qué consultamos | Qué propuso la IA | Qué hicimos | Argumento del equipo y evidencia |
 |---|---|---|---|---|
-| B-01 | Cual solicitud de cambio convenia implementar | Trabajar con SC-3 porque introduce distintas reglas comerciales | Aceptamos | SC-3 encaja con P-02. El contrato de `IDescuento.cs:9-12` solo recibe un precio y no permite tener en cuenta al cliente, su convenio o el credito. |
-| B-03 | Como manejar las distintas politicas de convenio | Aplicar Strategy | Aceptamos | La politica debe elegirse durante la venta sin agregar condicionales por convenio en el flujo principal. Cada regla quedara detras de `IPoliticaConvenio`. |
-| B-04 | Si debiamos crear una estrategia para cada tipo de entidad | Crear estrategias para empresas, bancos, cooperativas, universidades y colegios | Corregimos | La entidad sera un dato. Solo habra estrategias diferentes cuando cambie el calculo: descuento, credito o ambos. Asi evitamos cinco clases con comportamiento casi identico. |
-| B-05 | Si Strategy necesitaba una Facade adicional | Crear `ServicioConvenios` para coordinar las estrategias | Rechazamos | `ServicioVentaConvenio` puede seleccionar la estrategia directamente. La Facade agregaria dos clases y otra construccion sin ocultar un subsistema que hoy sea complejo. |
-| B-06 | Si Facade podia resolver la concentracion de `Program` | Usarla para reducir el ensamblaje del sistema | Rechazamos | La Facade no elimina ninguno de los objetos ni las suscripciones actuales de `Program.cs:8-110`; solo moveria u ocultaria ese codigo. `Program` debe seguir siendo el Composition Root. |
-| B-07 | Que patron servia para agregar nuevas alertas | Usar Chain of Responsibility | Corregimos | Las comprobaciones de stock y vencimiento deben ejecutarse siempre. Composite representa mejor un grupo de reglas que se recorren completas, como exige P-03. |
-| B-08 | Como evitar la repeticion en los tres cargadores TXT | Aplicar Template Method | Aceptamos | `CargadorProductosTxt.cs:22-63`, `CargadorClientesTxt.cs:13-43` y `CargadorUsuariosTxt.cs:13-45` repiten el mismo flujo y solo cambia la conversion de cada linea. |
-| B-09 | Si convenia separar cada opcion del menu en un comando | Aplicar Command | Rechazamos | P-05 cuesta hoy un archivo. Command exigiria una interfaz, siete comandos y cambios en `Program`, sin que existan historial, deshacer u otra interfaz que reutilice esos comandos. |
-| B-10 | Si la variacion de convenios justificaba una Abstract Factory | Crear una fabrica abstracta por familia de convenios | Rechazamos | No hay una familia real de objetos que crear de forma coordinada: cada convenio solo cambia el calculo de descuento/credito, no un conjunto de productos relacionados. Una familia irreal agregaria interfaces y fabricas innecesarias, como se registro en el analisis SC-3. |
-| B-11 | Si el Observer existente de las alertas debia tratarse como patron nuevo del Reto 2 | Contarlo como incorporacion junto a Strategy, Composite y Template Method | Corregimos | Observer ya esta en el AS-IS publicando las alertas de stock y vencimiento, y Composite lo conserva para publicar los mensajes. No es una incorporacion del Reto 2; se mantiene como parte de la base y no se suma a la cuenta de patrones adoptados. |
+| B-01 | Qué solicitud de cambio convenía implementar | Trabajar con SC-3 porque introduce distintas reglas comerciales | Aceptamos | SC-3 se relaciona con P-02. `IDescuento.cs:9-12` solo recibe un precio y no permite evaluar al cliente, su convenio ni el crédito. |
+| B-02 | Dónde había una rigidez concreta que no repitiera un hallazgo del Reto 1 | Centralizar la búsqueda de productos que está duplicada en la consulta y la venta, sin añadir un patrón | Aceptamos | `Program.cs:273-278` y `ServicioVenta.cs:24-32` aplican el mismo criterio. P-01 quedó como hallazgo asistido por IA. `ServicioProducto` tendrá la búsqueda común; cambiar el criterio pasará de 2 archivos / 2 clases a 1 archivo / 1 clase. |
+| B-03 | Cómo manejar las modalidades de convenio | Aplicar Strategy y crear un contrato para la evaluación comercial | Aceptamos | La política debe elegirse durante la venta sin agregar ramas por modalidad al flujo principal. `ServicioVentaConvenio` dependerá de `IPoliticaConvenio`; la venta normal no cambia. |
+| B-04 | Si debíamos crear una estrategia para cada entidad | Crear estrategias para empresas, bancos, cooperativas, universidades y colegios | Corregimos | La entidad será un dato de `Convenio`. Las estrategias solo cambian cuando cambia el cálculo: descuento, crédito o ambos. Así se evitan cinco clases con comportamiento repetido. |
+| B-05 | Si Strategy necesitaba una Facade adicional | Crear `ServicioConvenios` para coordinar las estrategias | Rechazamos | `ServicioVentaConvenio` ya coordina el caso de uso. La Facade añadiría otra clase sin ocultar un subsistema complejo ni reducir dependencias reales. |
+| B-06 | Si Facade podía resolver la concentración de `Program` | Mover el ensamblaje detrás de una fachada | Rechazamos | La Facade solo ocultaría las construcciones y suscripciones de `Program.cs:8-110`. `Program` debe seguir siendo el Composition Root. |
+| B-07 | Qué patrón servía para agregar alertas | Usar Chain of Responsibility | Corregimos | Stock y vencimiento deben comprobarse siempre. Composite permite tratar las hojas y el grupo mediante `IReglaAlerta` y ejecutar la colección completa. |
+| B-08 | Cómo eliminar la repetición de los cargadores TXT | Aplicar Template Method | Aceptamos | `CargadorProductosTxt.cs:22-63`, `CargadorClientesTxt.cs:13-43` y `CargadorUsuariosTxt.cs:13-45` repiten el flujo. `CargadorTxt<T>` lo concentrará y cada cargador implementará `ParsearCampos`. |
+| B-09 | Si convenía separar cada opción del menú en un comando | Aplicar Command | Rechazamos | P-05 cuesta hoy 1 archivo / 1 clase implícita. Command exigiría una interfaz, siete comandos y cambios en `Program`, sin historial, deshacer ni otro cliente del menú. |
+| B-10 | Si los convenios justificaban Abstract Factory | Crear una fábrica por familia de convenios | Rechazamos | No hay familias de objetos que deban crearse juntas. La variación está en el cálculo comercial, por lo que Abstract Factory agregaría fábricas e interfaces sin resolver P-02. |
+| B-11 | Si el Observer actual debía contarse como patrón nuevo | Sumarlo a Strategy, Composite y Template Method | Corregimos | Observer ya existe en el AS-IS y seguirá publicando las alertas. No es una incorporación del Reto 2 y no se suma al total de patrones adoptados. |
+| B-12 | Qué datos necesitaban las políticas y quién debía modificar el estado | Incluir cliente, producto, cantidad y una clasificación de entidad en la solicitud; permitir que la evaluación manejara el resultado completo | Corregimos | `SolicitudConvenio` solo llevará subtotal, porcentaje y cupo. `ResultadoConvenio` informará aprobación, descuento, total, cupo calculado y motivo, sin modificar objetos. `ServicioVentaConvenio` confirmará stock, movimiento y cupo. Tampoco se crea `TipoEntidadConvenio` porque ninguna política usa esa clasificación. |
+
+## Balance de decisiones
+
+| Resultado | Cantidad | Registros |
+|---|---:|---|
+| Aceptamos | 4 | B-01, B-02, B-03, B-08 |
+| Corregimos | 4 | B-04, B-07, B-11, B-12 |
+| Rechazamos | 4 | B-05, B-06, B-09, B-10 |
+| **Total** | **12** | B-01 a B-12 |

@@ -1,47 +1,91 @@
-# Tabla de cambio estructural - TO-BE Reto 2
+# Tabla de cambio estructural del TO-BE
 
-Registro de cada elemento que cambia al incorporar Strategy, Composite, Template Method y la consolidacion de Factory Method. Para cada elemento se indica que estado tenia, que pasa a hacer, y quien dependia de el y como se reconecta. El contenido es consistente con las fichas de patron (Actividad 3.3) y con el analisis de patrones.
+Esta tabla es la fuente única para los diagramas y la implementación. Separa los cambios por patrón y deja P-01 aparte porque se resuelve sin añadir uno. `Program` aparece una sola vez como cambio transversal, aunque participa en varias conexiones.
 
-## Estrategia (Strategy) - responde a P-02 / SC-3
+## P-01: búsqueda común de productos, sin patrón
 
-| ID | Elemento | Estado | Que hacia antes | Que hace ahora | Quien dependia de el y como se reconecta |
+| ID | Elemento | Estado | Qué hacía antes | Qué hace ahora | Quién dependía de él y cómo se reconecta |
 |---|---|---|---|---|---|
-| E-01 | `ServicioVenta.Vender` | Se transforma | `ServicioVenta.cs:35-52`: descuenta inventario, crea el movimiento y lo registra, sin punto de variacion comercial. | Conserva exactamente ese flujo para la venta normal. El criterio comercial se atiende en una ruta nueva (`ServicioVentaConvenio`) que no pasa por aqui. | `Program` y los 12 casos de caracterizacion dependian de `Vender`; siguen dependiendo igual y la salida no cambia. La venta con convenio es una ruta aparte. |
-| E-02 | `IPoliticaConvenio` | Entra | No existia. | Contrato que expone `Evaluar(SolicitudConvenio)`: subtotal, descuento, total, autorizacion de credito, cupo restante y motivo de rechazo. | Nadie dependia. `ServicioVentaConvenio` se conecta a el como estrategia. |
-| E-03 | `PoliticaSoloDescuento` / `PoliticaSoloCredito` / `PoliticaDescuentoCredito` | Entran | No existian. | Tres estrategias concretas; cada una implementa `IPoliticaConvenio` con su propio calculo. | `Program` las registra en el conjunto de estrategias. `ServicioVentaConvenio` las selecciona. |
-| E-04 | `ServicioVentaConvenio` | Entra | No existia. | Atiende la venta con convenio: recibe la politica, la invoca y devuelve el resultado. | `Program` lo construye y lo expone como nueva opcion. No modifica `ServicioVenta`. |
+| E-01 | `ServicioProducto` | Se transforma | Administraba la colección y la carga de productos, pero no ofrecía una búsqueda. | Añade `BuscarPorNombre(string nombre)` con el criterio actual: primera coincidencia parcial, sin distinguir mayúsculas. | Las opciones 3 y 4 de `Program` y la ruta de convenio buscan por medio de este servicio. |
+| E-02 | `ServicioVenta` | Se transforma | Dependía de `ServicioProducto` para implementar una segunda búsqueda por nombre. | Elimina `BuscarProducto` y la dependencia de `ServicioProducto`. `Vender(Producto, int)` conserva su comportamiento. | `Program` obtiene el producto con `ServicioProducto` y lo entrega a `Vender`. `ServicioMovimiento` sigue conectado igual. |
 
-## Compuesto (Composite) - responde a P-03
+P-01 cambia dos servicios y la composición de `Program`, pero no crea clases. La búsqueda se mueve; no se modifica su resultado.
 
-| ID | Elemento | Estado | Que hacia antes | Que hace ahora | Quien dependia de el y como se reconecta |
+## Strategy: P-02 y SC-3
+
+**Interpretación adoptada para SC-3:** el Anexo B solicita convenios para descuentos y crédito descontable, sin detallar su operación. Para esta entrega se modela el crédito como una compra cuyo total se descuenta del cupo disponible; no como otro descuento sobre el precio. Se adopta cero o un convenio por cliente y tres modalidades: descuento, crédito y descuento con crédito. En la modalidad combinada primero se aplica el descuento y después se consume el cupo por el total resultante. El cupo se mantiene en memoria; no se implementan cobros, cuotas, intereses, descuentos de nómina ni persistencia. Estas son decisiones de alcance del diseño, no reglas detalladas que el enunciado imponga literalmente.
+
+| ID | Elemento | Estado | Qué hacía antes | Qué hace ahora | Quién dependía de él y cómo se reconecta |
 |---|---|---|---|---|---|
-| E-05 | `ServicioMonitoreoProductos` | Se transforma | `ServicioMonitoreoProductos.cs:20-31` y `33-48`: verificaba stock y vencimiento con dos metodos propios y dos eventos concretos. | Deja de contener las reglas; pasa a delegar la verificacion en las hojas del compuesto. | `Program.cs` (antiguo ensamblaje en 62-87) sigue construyendo el monitoreo, ahora armando el `MonitorCompuesto` con sus reglas. |
-| E-06 | `IReglaAlerta` | Entra | No existia. | Contrato comun de una regla de alerta. | `ReglaStockMinimo` y `ReglaVencimiento` la implementan; `MonitorCompuesto` la usa. |
-| E-07 | `ReglaStockMinimo` / `ReglaVencimiento` | Entran | No existian como clases (la logica vivia en los metodos del monitor). | Hojas que encapsulan cada regla y publican su alerta. | `MonitorCompuesto` las compone y las ejecuta; el `Observer` existente conserva la publicacion. |
-| E-08 | `MonitorCompuesto` | Entra | No existia. | Compone las reglas y las ejecuta todas. | `Program` lo arma. `ServicioMonitoreoProductos` (o su sustituto) lo invoca al verificar. |
+| E-03 | `IDescuento` | Sale | Definía un cálculo que solo recibía un precio. | Se elimina porque no representa un convenio, el crédito ni el resultado completo de la evaluación. | Lo reemplaza `IPoliticaConvenio`. No tenía consumidores conectados a la venta. |
+| E-04 | `ServicioDescuento` | Sale | Aplicaba siempre un descuento del 10 % y no participaba en `ServicioVenta`. | Se elimina para evitar dos modelos comerciales sin integración. | No requiere reconexión directa; las nuevas políticas cubren los cálculos de SC-3. |
+| E-05 | `Cliente` | Se transforma | Guardaba identificación, nombre, teléfono, correo y puntos. | Incorpora cero o un `Convenio`. | `CargadorClientesTxt` lo construye y `ServicioVentaConvenio` consulta su convenio y confirma el cupo. |
+| E-06 | `Convenio` | Entra | No existía. | Guarda la entidad como texto, el tipo de beneficio, el porcentaje y el cupo disponible. | Pertenece opcionalmente a `Cliente`. Sus valores alimentan `SolicitudConvenio`. |
+| E-07 | `TipoBeneficioConvenio` | Entra | No existía. | Enumera descuento, crédito y descuento con crédito. Se amplía al incorporar una modalidad nueva. | `ServicioVentaConvenio` lo usa como clave para seleccionar la estrategia. |
+| E-08 | `SolicitudConvenio` | Entra | No existía. | Contiene los datos mínimos e inmutables para evaluar: subtotal, porcentaje y cupo disponible. | La construye `ServicioVentaConvenio`. No transporta `Cliente`, `Producto`, cantidad ni servicios. |
+| E-09 | `ResultadoConvenio` | Entra | No existía. | Informa aprobación, descuento, total, cupo restante calculado y motivo opcional. No modifica estado. | Lo crea una política y lo interpreta `ServicioVentaConvenio`. |
+| E-10 | `IPoliticaConvenio` | Entra | No había un punto de variación comercial dentro del caso de uso. | Declara `Evaluar(SolicitudConvenio) : ResultadoConvenio`. | `ServicioVentaConvenio` depende de este contrato, no de una política concreta. |
+| E-11 | `PoliticaSoloDescuento` | Entra | No existía. | Calcula el descuento y deja intacto el cupo recibido. | Implementa `IPoliticaConvenio` y no modifica objetos externos. |
+| E-12 | `PoliticaSoloCredito` | Entra | No existía. | Compara el subtotal con el cupo y calcula el cupo restante cuando autoriza. | Implementa `IPoliticaConvenio` y no modifica objetos externos. |
+| E-13 | `PoliticaDescuentoCredito` | Entra | No existía. | Aplica el descuento y evalúa el total resultante contra el cupo. | Implementa `IPoliticaConvenio` y no modifica objetos externos. |
+| E-14 | `ServicioVentaConvenio` | Entra | Solo existía la venta normal. | Selecciona la política, prepara la solicitud y evalúa. Si se aprueba, confirma stock, movimiento y cupo; si se rechaza, no cambia esos datos. | Recibe el registro de estrategias y `ServicioMovimiento`. Opera con el cliente y producto que resuelve `Program`. |
+| E-15 | `clientes.txt` | Se transforma | Cada fila tenía cuatro campos para los datos básicos del cliente. | Admite esos cuatro campos y, de forma opcional, entidad, beneficio, porcentaje y cupo. | `CargadorClientesTxt` sigue leyendo el archivo y permite clientes con o sin convenio. |
 
-## Plantilla (Template Method) - responde a P-04
+No entra `TipoEntidadConvenio`. `Convenio.Entidad` guarda el nombre o identificación de la entidad concreta; no solo una categoría como banco o universidad. La categoría no determina la política.
 
-| ID | Elemento | Estado | Que hacia antes | Que hace ahora | Quien dependia de el y como se reconecta |
+`ServicioVenta.Vender` conserva el flujo normal. Su única transformación pertenece a P-01: deja de buscar el producto.
+
+## Composite: P-03
+
+| ID | Elemento | Estado | Qué hacía antes | Qué hace ahora | Quién dependía de él y cómo se reconecta |
 |---|---|---|---|---|---|
-| E-09 | `CargadorProductosTxt` | Se transforma | `CargadorProductosTxt.cs:22-63`: repetia todo el flujo de carga y hacia su propio parseo. | Hereda de `CargadorTxt<T>` y conserva solo `ParsearLinea`, que convierte una fila en `Producto`. | `ICargadorProductos` y `Program` no cambian; el cargador concreto se construye igual. |
-| E-10 | `CargadorClientesTxt` | Se transforma | `CargadorClientesTxt.cs:13-43`: mismo flujo repetido (validar, leer, recorrer, split, agregar, error). | Hereda de `CargadorTxt<T>` y conserva solo `ParsearLinea` para `Cliente`. | `ICargadorClientes` y `Program` no cambian. |
-| E-11 | `CargadorUsuariosTxt` | Se transforma | `CargadorUsuariosTxt.cs:13-45`: mismo flujo repetido. | Hereda de `CargadorTxt<T>` y conserva solo `ParsearLinea` para `Usuario`. | `ICargadorUsuarios` y `Program` no cambian. |
-| E-12 | `CargadorTxt<T>` | Entra | No existia. | Clase base con el algoritmo comun de carga TXT y el paso abstracto `ParsearLinea`. | Los tres cargadores heredan de ella; `Program` no la conoce directamente. |
+| E-16 | `ServicioMonitoreoProductos` | Sale | Contenía directamente las verificaciones de stock y vencimiento y conocía los dos eventos. | Se elimina; sus reglas pasan a hojas independientes y la coordinación pasa al compuesto. | `Program` deja de construirlo y usa `MonitorCompuesto`. |
+| E-17 | `IReglaAlerta` | Entra | No existía un contrato común para reglas y grupos de reglas. | Declara `Verificar(IEnumerable<Producto> productos) : void`. | Lo implementan las dos hojas y `MonitorCompuesto`. |
+| E-18 | `ReglaStockMinimo` | Entra | La lógica estaba en `ServicioMonitoreoProductos.VerificarStock`. | Hoja que conserva el criterio, el evento y el texto de stock mínimo. | `Program` conecta su evento y la agrega primero al compuesto. |
+| E-19 | `ReglaVencimiento` | Entra | La lógica estaba en `ServicioMonitoreoProductos.VerificarVencimiento`. | Hoja que conserva el criterio, el evento y el texto de vencimiento. | `Program` conecta su evento y la agrega después de la regla de stock. |
+| E-20 | `MonitorCompuesto` | Entra | No existía. | Implementa `IReglaAlerta`, contiene una colección ordenada de `IReglaAlerta` y ejecuta todas. | `Program` construye las dos hojas y el grupo; lo invoca como `IReglaAlerta` para verificar productos. |
 
-## Consolidacion de Factory Method - responde a P-01
+Se conservan `EventoStockMinimo`, `EventoVencimiento`, sus mensajes, colores y el orden stock-vencimiento. Cada hoja recorre todos los productos antes de pasar a la siguiente.
 
-| ID | Elemento | Estado | Que hacia antes | Que hace ahora | Quien dependia de el y como se reconecta |
+**Comparación con una lista simple:** un coordinador que recorra una lista de reglas también resuelve la extensión de alertas y es una alternativa válida. Se mantiene Composite de forma mínima: las dos hojas y el grupo actual de stock-vencimiento exponen `Verificar(IEnumerable<Producto>)` mediante `IReglaAlerta`. `Program` invoca el grupo a través de ese contrato y configura sus miembros al construirlo. Frente a un coordinador con la misma lista y una API propia, el costo adicional es que ese mismo coordinador implemente la interfaz; no se añaden clases ni agrupaciones hipotéticas. El beneficio específico es una operación uniforme para la regla individual y el conjunto. No se atribuye al patrón exclusividad para ejecutar todas las reglas ni una reducción del total de archivos por alerta.
+
+Para una alerta nueva con evento propio: antes, dos archivos existentes modificados y uno nuevo; después, `Program` modificado y dos archivos nuevos (hoja y evento). No se modifican el compuesto ni las reglas existentes.
+
+## Template Method: P-04
+
+| ID | Elemento | Estado | Qué hacía antes | Qué hace ahora | Quién dependía de él y cómo se reconecta |
 |---|---|---|---|---|---|
-| E-13 | `ICreadorProducto`, `CreadorMedicamentoCapsula`, `SelectorCreadorProducto` | Se conservan | Ya eran el mecanismo unico de creacion desde el Reto 1. | Siguen igual: cada creador convierte un `DatosProducto` en producto. | `CargadorProductosTxt` y `Program` siguen dependiendo igual; no se rompe ningun consumidor. |
+| E-21 | `CargadorTxt<T>` | Entra | El algoritmo común estaba repetido en tres cargadores. | Controla validación, lectura, recorrido, `Split`, parseo delegado, agregado, errores y mensaje final. | Es la base de los tres cargadores concretos. `Program` no la conoce directamente. |
+| E-22 | `CargadorProductosTxt` | Se transforma | Ejecutaba el algoritmo completo y hacía el parseo de productos. | Hereda de `CargadorTxt<Producto>`, implementa `ParsearCampos` y conserva el selector de creadores. | Mantiene `ICargadorProductos`; `ServicioProducto` sigue usándolo por esa interfaz. |
+| E-23 | `CargadorClientesTxt` | Se transforma | Ejecutaba el algoritmo completo y leía los cuatro primeros campos. | Hereda de `CargadorTxt<Cliente>`, implementa `ParsearCampos` y crea el convenio cuando estén presentes los campos opcionales. | Mantiene `ICargadorClientes`; `ServicioCliente` sigue usándolo por esa interfaz. |
+| E-24 | `CargadorUsuariosTxt` | Se transforma | Ejecutaba el algoritmo completo y hacía el parseo de usuarios. | Hereda de `CargadorTxt<Usuario>` e implementa `ParsearCampos`. | Mantiene `ICargadorUsuarios`; `ServicioUsuario` sigue usándolo por esa interfaz. |
+
+Cada cargador conserva su mensaje: `Productos cargados`, `Clientes cargados` o `Usuarios cargados`.
+
+## Cambio transversal
+
+| ID | Elemento | Estado | Qué hacía antes | Qué hace ahora | Quién dependía de él y cómo se reconecta |
+|---|---|---|---|---|---|
+| E-25 | `Program` | Se transforma | Buscaba directamente en la opción 3, delegaba otra búsqueda a `ServicioVenta`, construía el monitor anterior y no exponía SC-3. | Usa `ServicioProducto.BuscarPorNombre` en consulta y venta, registra las estrategias, construye el Composite y reconoce `--convenio`. | Sin el argumento conserva el menú y las salidas existentes. Con `--convenio` coordina la nueva venta sin duplicar la búsqueda. |
 
 ## Resumen
 
-| Cambio | Sale | Entra | Se transforma |
-|---|---|---|---|
-| Strategy | 0 | 4 (E-02, E-03, E-04) | 1 (E-01) |
-| Composite | 0 | 3 (E-06, E-07, E-08) | 1 (E-05) |
-| Template Method | 0 | 1 (E-12) | 3 (E-09, E-10, E-11) |
-| Factory Method | 0 | 0 | 0 (se conserva) |
+| Grupo | Sale | Entra | Se transforma |
+|---|---:|---:|---:|
+| P-01 sin patrón | 0 | 0 | 2 |
+| Strategy / SC-3 | 2 | 9 | 2 |
+| Composite | 1 | 4 | 0 |
+| Template Method | 0 | 1 | 3 |
+| Cambio transversal | 0 | 0 | 1 |
+| **Total** | **3** | **14** | **8** |
 
-Ningun elemento se elimina: las interfaces formales (`ICargadorProductos`, `ICargadorClientes`, `ICargadorUsuarios`, `IDescuento`, `ServicioDescuento`) y el `Observer` existente se conservan para no cambiar el contrato de los consumidores ni la salida del programa.
+El resumen cuenta clases, interfaces, el enum y el archivo `clientes.txt`. `CargadorClientesTxt` se cuenta una sola vez en Template Method, aunque también se adapta para SC-3. `Program` se cuenta una sola vez como cambio transversal.
+
+## Elementos conservados
+
+- `ServicioVenta.Vender` y el flujo de la venta normal.
+- `ICargadorProductos`, `ICargadorClientes` e `ICargadorUsuarios`.
+- `EventoStockMinimo` y `EventoVencimiento`.
+- Los creadores y el selector de productos.
+- El mecanismo Observer existente.
+- Factory Method como parte del AS-IS.

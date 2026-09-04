@@ -1,33 +1,29 @@
-# Ficha de patron - Composite
+# Ficha de patrón: Composite
 
-**Patron y punto de dolor que resuelve**
+## Patrón y punto de dolor que resuelve
 
-`Composite` responde a **P-03** (cada nueva alerta amplia deteccion, evento y composicion). La evidencia esta en `ServicioMonitoreoProductos.cs:20-31` (`VerificarStock`) y `33-48` (`VerificarVencimiento`): el monitor recorre los productos por separado para cada regla y dispara un evento concreto por regla. Agregar una alerta de sobrestock obliga a crear otro evento, ampliar el monitor y rehacer la composicion en `Program`.
+P-03: `ServicioMonitoreoProductos.cs:20-47` reúne stock y vencimiento; `Program.cs:62-87` compone los eventos. Una alerta con evento propio obliga a modificar monitor y `Program` y a crear el evento.
 
-**Alternativas que evaluamos**
+## Alternativas evaluadas
 
-1. **No hacer nada** (descartada): cada regla de alerta nueva seguiria tocando deteccion, evento y ensamblaje a la vez, que es el costo repetido que P-03 declara.
-2. **Chain of Responsibility** (descartada): una cadena detiene la revisión en el primer manejador que la atiende, pero las alertas de stock y vencimiento deben ejecutarse siempre. No representa bien un grupo de reglas que se recorren completas.
-3. **Composite** (adoptada): agrupa las reglas bajo un contrato comun y las ejecuta todas, sin que el monitor crezca con cada regla nueva.
+**No hacer nada:** el monitor crece por regla. **Lista simple con coordinador:** viable; también separa reglas. Se elige un contrato común para invocar el grupo actual y sus hojas. **Chain of Responsibility:** podría ejecutar todos los manejadores, pero no se necesita decisión de continuidad ni enlaces entre reglas. **Composite:** adoptado en su forma mínima; el coordinador implementa la misma interfaz, sin clases adicionales frente a esa lista con coordinador.
 
-**Que sale y que entra**
+## Qué sale y qué entra
 
-*Sale:* el acople de `ServicioMonitoreoProductos` que obliga a meter cada regla como metodo propio dentro del mismo monitor contemplando su evento concreto.
+Sale `ServicioMonitoreoProductos`. Entran `IReglaAlerta` como componente, `ReglaStockMinimo` y `ReglaVencimiento` como hojas, y `MonitorCompuesto` como compuesto. Los tres implementan `Verificar(IEnumerable<Producto>)`. El compuesto contiene una colección ordenada de componentes. Se conservan ambos eventos y Observer.
 
-*Entra:* `IReglaAlerta` (contrato comun con su evaluacion), las hojas `ReglaStockMinimo` y `ReglaVencimiento` (cada una encapsula su propia regla y publica su mensaje), y `MonitorCompuesto` (compone las reglas y las ejecuta a todas). El mecanismo `Observer` existente que publica los mensajes se conserva igual, tal como ya esta en el AS-IS.
+## Cómo se relaciona
 
-**Como se relaciona**
+`Program` construye hojas y grupo, conecta los eventos e invoca el grupo mediante `IReglaAlerta`. Stock recorre todos los productos antes de ejecutar vencimiento. Así se conservan orden, textos y colores. El mismo contrato representa una comprobación individual y la comprobación conjunta ya existente. No se añaden grupos anidados hipotéticos ni se afirma que una lista sea incapaz de resolver P-03. Comparte únicamente la composición con Strategy y Template Method.
 
-`Program` arma el `MonitorCompuesto` y le agrega las reglas, y sigue suscribiendose a la notificacion de cada alerta. Al verificar, el monitor recorre su lista de reglas y cada hoja decide si la dispara. Una alerta nueva es una clase hoja y un registro; no se toca el algoritmo de recorrido ni la composicion de `Program` mas alla del alta. Se apoya en el `Observer` ya existente para publicar, sin introducir un canal nuevo.
+## Impacto
 
-**Impacto**
+Entran tres clases y una interfaz; sale un servicio y cambia `Program`. Por alerta con evento propio: antes, dos archivos existentes modificados y uno nuevo; después, un existente (`Program`) y dos nuevos (hoja y evento). El total sigue siendo tres. No cambian el compuesto ni las reglas anteriores. No incorpora funciones de SC-1, SC-2 o SC-3.
 
-Clases creadas: `IReglaAlerta`, `ReglaStockMinimo`, `ReglaVencimiento`, `MonitorCompuesto`. Clases modificadas: `ServicioMonitoreoProductos` (se transforma: su logica pasa a las reglas) y `Program` (composicion del monitor con reglas). Clases eliminadas: ninguna en el flujo de salida; los eventos y el Observer se conservan. Efecto sobre las solicitudes del Anexo B: no altera la conducta de las alertas existentes; una alerta nueva (p. ej. de sobrestock) se agrega como hoja.
+## Qué cuesta
 
-**Que cuesta**
+Las reglas se distribuyen en hojas; el registro en `Program` sigue siendo necesario. Frente a la lista simple, se añade el compromiso de que el coordinador cumpla la interfaz. La uniformidad es el beneficio específico; el ahorro consiste en modificar menos código existente, no en reducir archivos totales.
 
-Se paga una clase base (`IReglaAlerta`), dos reglas, el monitor compuesto y la transformacion de `ServicioMonitoreoProductos` y `Program`. La composicion por reglas agrega indireccion: leer donde se decide el umbral ya no es un metodo del monitor sino la regla. Es el costo de dejar de ampliar estructuras cada vez que aparece una regla de alerta.
+## Origen
 
-**Origen**
-
-Propuesta de la herramienta corregida y adoptada tras verificarla. Queda registrada en la bitacora como **B-07** (la herramienta sugirio Chain of Responsibility; el equipo la reemplazo por Composite porque las alertas deben ejecutarse todas).
+B-07 registra la elección del equipo. Esta revisión asistida añade la comparación con lista simple y precisa costos y límites; debe reflejarse en la bitácora en preparación.
