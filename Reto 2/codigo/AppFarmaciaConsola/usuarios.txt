@@ -1,0 +1,5 @@
+﻿Administrador;999;3000000000;admin@gmail.com;admin;1234
+Supervisor;888;3111111111;supervisor@gmail.com;super;4321
+Vendedor1;777;3222222222;vendedor1@gmail.com;venta1;1111
+Vendedor2;666;3333333333;vendedor2@gmail.com;venta2;2222
+Auxiliar;555;3444444444;auxiliar@gmail.com;aux;3333
