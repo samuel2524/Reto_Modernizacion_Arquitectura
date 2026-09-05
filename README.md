@@ -1,4 +1,4 @@
-#INFORMACIÓN DEL RETO 2#
+#INFORMACIÓN DEL RETO 2
 ## Integrantes y Roles (Reto 2) ##
 Samuel Parra	Arquitecto Líder
 
@@ -24,7 +24,7 @@ cd "AppFarmaciaConsola"
 dotnet run
 ```
 
-#INFORMACIÓN DEL RETO 1#
+#INFORMACIÓN DEL RETO 1
 ## Integrantes y Roles (Reto 1) ##
 Samuel Parra	Arquitecto de dominio
 
