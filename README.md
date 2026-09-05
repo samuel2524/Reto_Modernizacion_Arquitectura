@@ -10,9 +10,9 @@ Andres Martinez	Arquitecto de Riesgos y Despliegue
 Juan Jose Garcia	Arquitecto de Comunicación Gráfica
 
 
-## Enlace del video (Reto 1): 
+## Enlace del video (Reto 2): 
 
-https://youtu.be/QBECckkiprg 
+PENDIENTE
 
 ## Ejecución del proyecto (Reto 1) ##
 
@@ -24,6 +24,7 @@ cd "codigo"
 cd "AppFarmaciaConsola"
 dotnet run
 ```
+
 
 # INFORMACIÓN DEL RETO 1
 ## Integrantes y Roles (Reto 1) ##
