@@ -1,0 +1,9 @@
+Cargando información del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contraseña: 
+Acceso denegado

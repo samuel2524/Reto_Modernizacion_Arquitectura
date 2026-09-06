@@ -1,0 +1,12 @@
+Cargando información del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contraseña: 
+Login correcto
+
+===== VENTA CON CONVENIO =====
+Cédula cliente: Nombre producto: Cantidad: Venta con convenio rechazada: Cliente sin convenio

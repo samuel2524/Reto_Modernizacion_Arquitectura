@@ -1,0 +1,17 @@
+Cargando información del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contraseña: 
+Login correcto
+
+===== VENTA CON CONVENIO =====
+Cédula cliente: Nombre producto: Cantidad: Movimiento registrado: Venta
+Venta con convenio aprobada
+Subtotal: 30000
+Descuento: 3000
+Total: 27000
+Cupo restante: 0
