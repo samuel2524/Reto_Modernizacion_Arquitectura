@@ -3,9 +3,9 @@
 ## Integrantes y Roles (Reto 2) ##
 Samuel Parra	Arquitecto Líder
 
-Jose Miguel Jaramillo	Arquitecto de Verificación
+Andres Martinez	Arquitecto de Verificación
 
-Andres Martinez	Arquitecto de Riesgos y Despliegue
+Jose Miguel Jaramillo	Arquitecto de Riesgos y Despliegue
 
 Juan Jose Garcia	Arquitecto de Comunicación Gráfica
 
