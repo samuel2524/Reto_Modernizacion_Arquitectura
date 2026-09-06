@@ -2,13 +2,14 @@
 
 Dos partes. La primera son los 12 casos de caracterización del Reto 1,
 corridos contra el TO-BE del Reto 1 (`03-src`, sin patrones nuevos) y contra
-el código real del Reto 2 (con Strategy, Composite, Template Method y
-Factory Method consolidado), comparados byte a byte. La segunda son 4 casos
-nuevos que ejercitan Strategy, el único patrón que agrega comportamiento
-observable nuevo (la venta con convenio). Composite, Template Method y
-Factory Method se adoptaron para que la salida **no** cambiara, así que la
-prueba de que cumplieron su objetivo son los 12 casos heredados, no un
-camino nuevo.
+el código real del Reto 2 (con los tres patrones adoptados: Strategy,
+Composite y Template Method), comparados byte a byte. Factory Method no es
+un patrón incorporado en este reto: sigue igual que en el Reto 1, como
+parte del AS-IS. La segunda son 4 casos nuevos que ejercitan Strategy, el
+único patrón que agrega comportamiento observable nuevo (la venta con
+convenio). Composite y Template Method se adoptaron para que la salida
+**no** cambiara, así que la prueba de que cumplieron su objetivo son los 12
+casos heredados, no un camino nuevo.
 
 ## Parte 1: los 12 casos heredados
 

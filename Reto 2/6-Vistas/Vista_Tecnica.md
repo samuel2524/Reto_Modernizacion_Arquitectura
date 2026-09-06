@@ -74,11 +74,14 @@ concretas ni cómo están compuestas.
   `IPoliticaConvenio`, así que dejaron de tener sentido como deuda
   separada.
 - **El formato del archivo de productos sigue acoplado por posición**
-  (`datos[0]` es el tipo, `datos[1]` el nombre, etc.). Consolidar Factory
-  Method no resolvió eso: cada creador sigue leyendo `Extra[i]` por índice.
-  Agregar una columna nueva al inventario sigue costando tocar
-  `DatosProducto`, `CargadorProductosTxt` y cada creador (P-01 sigue
-  abierto).
+  (`datos[0]` es el tipo, `datos[1]` el nombre, etc.). Ningún patrón de
+  este reto atiende esto: Factory Method sigue leyendo `Extra[i]` por
+  índice en cada creador, igual que en el Reto 1. Agregar una columna
+  nueva al inventario sigue costando tocar `DatosProducto`,
+  `CargadorProductosTxt` y cada creador: 3 archivos / 3 clases. Es deuda
+  declarada, no un punto de dolor con ID propio en esta entrega (no
+  confundir con P-01, que ahora es la búsqueda de productos duplicada y ya
+  quedó resuelta).
 - **El menú de `Program` sigue siendo un único `switch`** (P-05): se evaluó
   y se descartó a propósito resolverlo con un patrón, porque el costo de la
   alternativa (nueve clases) superaba el problema (un archivo).

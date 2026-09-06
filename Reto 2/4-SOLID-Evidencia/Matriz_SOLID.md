@@ -1,6 +1,6 @@
 # Matriz de verificacion SOLID - TO-BE Reto 2
 
-Verificacion de que los patrones adoptados (Strategy, Composite, Template Method y la consolidacion de Factory Method) no rompen los principios SOLID ya pagados en el Reto 1. Cada fila es un patron y cada columna un principio. Valores: **Refuerza**, **Neutro**, **Tensionado pero compensado**, **Roto**. Toda celda distinta de Neutro lleva su linea de evidencia debajo. Ninguna celda queda en Roto.
+Verificacion de que los tres patrones adoptados en el Reto 2 (Strategy, Composite y Template Method) no rompen los principios SOLID ya pagados en el Reto 1. Factory Method sigue siendo parte del AS-IS: no se cuenta como patron incorporado en este reto (ver Analisis_de_Patrones.md, "Decision final") y por eso no tiene fila propia aqui. Cada fila es un patron y cada columna un principio. Valores: **Refuerza**, **Neutro**, **Tensionado pero compensado**, **Roto**. Toda celda distinta de Neutro lleva su linea de evidencia debajo. Ninguna celda queda en Roto.
 
 ## Matriz
 
@@ -9,7 +9,6 @@ Verificacion de que los patrones adoptados (Strategy, Composite, Template Method
 | **Strategy** (`IPoliticaConvenio`) | Refuerza | Refuerza | Neutro | Tensionado pero compensado | Refuerza |
 | **Composite** (`IReglaAlerta`) | Refuerza | Refuerza | Tensionado pero compensado | Neutro | Refuerza |
 | **Template Method** (`CargadorTxt<T>`) | Neutro | Refuerza | Tensionado pero compensado | Neutro | Neutro |
-| **Factory Method** (consolidacion) | Neutro | Refuerza | Neutro | Neutro | Refuerza |
 
 ## Estrategia (Strategy) - P-02 / SC-3
 
@@ -51,10 +50,10 @@ Todas las reglas deben poder tratarse de forma uniforme por `MonitorCompuesto`: 
 La clase base `CargadorTxt<T>` concentra el algoritmo de carga y cada subclase solo el parseo. No se sobrecarga ninguna clase: se mantiene la separacion que ya habia (un cargador por origen).
 
 ### OCP - Refuerza
-Un cargador nuevo o una regla general del formato se atiende en un solo lugar. `CargadorProductosTxt`, `CargadorClientesTxt` y `CargadorUsuariosTxt` heredan de la base y solo implementan `ParsearLinea`. El algoritmo comun (validar, leer, recorrer, split, agregar, error) deja de duplicarse en tres archivos (antes en `CargadorProductosTxt.cs:22-63`, `CargadorClientesTxt.cs:13-43`, `CargadorUsuariosTxt.cs:13-45`).
+Un cargador nuevo o una regla general del formato se atiende en un solo lugar. `CargadorProductosTxt`, `CargadorClientesTxt` y `CargadorUsuariosTxt` heredan de la base y solo implementan `ParsearCampos`. El algoritmo comun (validar, leer, recorrer, split, agregar, error) deja de duplicarse en tres archivos (antes en `CargadorProductosTxt.cs:22-63`, `CargadorClientesTxt.cs:13-43`, `CargadorUsuariosTxt.cs:13-45`).
 
 ### LSP - Tensionado pero compensado
-El riesgo clasico del patron es que una subclase no pueda cumplir un paso de la plantilla (p. ej. un paso vacio) y deje de ser sustituible. **Compensacion**: los pasos de la plantilla deben ser comunes a los tres cargadores; si un dia un cargador necesita un paso distinto, no se agrega un metodo vacio a la base; se redefine en la subclase o se ajusta la conversion `ParsearLinea`. Queda declarado y mitigado en la Ficha_TemplateMethod y en el analisis SC-3.
+El riesgo clasico del patron es que una subclase no pueda cumplir un paso de la plantilla (p. ej. un paso vacio) y deje de ser sustituible. **Compensacion**: los pasos de la plantilla deben ser comunes a los tres cargadores; si un dia un cargador necesita un paso distinto, no se agrega un metodo vacio a la base; se redefine en la subclase o se ajusta la conversion `ParsearCampos`. Queda declarado y mitigado en la Ficha_TemplateMethod y en el analisis SC-3.
 
 ### ISP - Neutro
 Las interfaces de consumo (`ICargadorProductos`, `ICargadorClientes`, `ICargadorUsuarios`) se conservan intactas y siguen siendo la unica exposicion para sus consumidores.
@@ -62,22 +61,9 @@ Las interfaces de consumo (`ICargadorProductos`, `ICargadorClientes`, `ICargador
 ### DIP - Neutro
 `Program` y los servicios siguen dependiendo de las interfaces `ICargador*`, no de la clase base. La herencia es interna a cada cargador; la abstraccion que ven los consumidores no cambia.
 
-## Factory Method - P-01 (consolidacion)
+## Nota sobre Factory Method
 
-### SRP - Neutro
-Cada creador sigue haciendo una sola cosa: convertir un `DatosProducto` en su tipo de producto. No se altera.
-
-### OCP - Refuerza
-Agregar un tipo nuevo es una clase creador y su registro en el diccionario de `Program` (Program.cs:17-27). El `CargadorProductosTxt` no se modifica, reforzando lo ya logrado en el Reto 1.
-
-### LSP - Neutro
-Todos los creadores implementan `ICreadorProducto` y devuelven `Producto`; son sustituibles. Sin cambios.
-
-### ISP - Neutro
-`ICreadorProducto` conserva una sola operacion `Crear`. Sin cambios.
-
-### DIP - Refuerza
-`CargadorProductosTxt` depende de `ISelectorCreadorProducto` y `ICreadorProducto`, no de creadores concretos. `Program` ensambla el diccionario y lo inyecta. El diseno ya aplicaba DIP y se conserva.
+Factory Method (`ICreadorProducto`, `SelectorCreadorProducto`) no aparece en la matriz porque no es un patron incorporado en el Reto 2: viene del Reto 1 y se conserva sin cambios como parte del AS-IS (Analisis_de_Patrones.md, "Decision final"). No esta atado a ningun punto de dolor de este reto (P-01 se resuelve sin patron, ver Puntos_de_Dolor.md y Tabla_Cambio_Estructural.md), asi que no hay una verificacion SOLID nueva que hacerle aqui.
 
 ## Errores tipicos verificados (seccion 5 del enunciado)
 
