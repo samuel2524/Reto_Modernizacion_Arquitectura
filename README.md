@@ -12,7 +12,7 @@ Juan Jose Garcia	Arquitecto de Comunicación Gráfica
 
 ## Enlace del video (Reto 2): 
 
-PENDIENTE
+https://youtu.be/7JjGa4ubhX4 
 
 ## Ejecución del proyecto (Reto 1) ##
 
