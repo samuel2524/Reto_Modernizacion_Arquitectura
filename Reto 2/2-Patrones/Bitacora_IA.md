@@ -16,13 +16,12 @@ La bitácora registra decisiones de diseño, no una lista de consultas. Cada ent
 | B-10 | Si los convenios justificaban Abstract Factory | Crear una fábrica por familia de convenios | Rechazamos | No hay familias de objetos que deban crearse juntas. La variación está en el cálculo comercial, por lo que Abstract Factory agregaría fábricas e interfaces sin resolver P-02. |
 | B-11 | Si el Observer actual debía contarse como patrón nuevo | Sumarlo a Strategy, Composite y Template Method | Corregimos | Observer ya existe en el AS-IS y seguirá publicando las alertas. No es una incorporación del Reto 2 y no se suma al total de patrones adoptados. |
 | B-12 | Qué datos necesitaban las políticas y quién debía modificar el estado | Incluir cliente, producto, cantidad y una clasificación de entidad en la solicitud; permitir que la evaluación manejara el resultado completo | Corregimos | `SolicitudConvenio` solo llevará subtotal, porcentaje y cupo. `ResultadoConvenio` informará aprobación, descuento, total, cupo calculado y motivo, sin modificar objetos. `ServicioVentaConvenio` confirmará stock, movimiento y cupo. Tampoco se crea `TipoEntidadConvenio` porque ninguna política usa esa clasificación. |
-| B-13 | Si `Matriz_SOLID.md` y `Analisis_Riesgos.md` seguían describiendo a Factory Method como un patrón consolidado del Reto 2 | Una revisión asistida detectó que esos dos documentos no se habían actualizado cuando `Analisis_de_Patrones.md` ya había descartado a Factory Method (ver "Decisión final": permanece como AS-IS) | Corregimos | Se quitó la fila de Factory Method de `Matriz_SOLID.md` (no aporta ninguna verificación SOLID nueva) y se reescribió R-06 de `Analisis_Riesgos.md`, que dependía de esa consolidación inexistente. El riesgo real que queda ahí es no crear estructura de más en `ServicioProducto.BuscarPorNombre` mientras solo exista un criterio de búsqueda (P-01). |
 
 ## Balance de decisiones
 
 | Resultado | Cantidad | Registros |
 |---|---:|---|
 | Aceptamos | 4 | B-01, B-02, B-03, B-08 |
-| Corregimos | 5 | B-04, B-07, B-11, B-12, B-13 |
+| Corregimos | 4 | B-04, B-07, B-11, B-12 |
 | Rechazamos | 4 | B-05, B-06, B-09, B-10 |
-| **Total** | **13** | B-01 a B-13 |
+| **Total** | **12** | B-01 a B-12 |
